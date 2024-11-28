@@ -1,0 +1,115 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs/
+*.log
+
+# Dados de runtime
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Diretório para libs instrumentadas geradas por jscoverage/JSCover
+lib-cov/
+
+# Diretório de cobertura usado por ferramentas como istanbul
+coverage/
+
+# Cobertura de teste nyc
+.nyc_output/
+
+# Armazenamento intermediário do Grunt (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt/
+
+# Diretório de dependências do Bower (https://bower.io/)
+bower_components/
+
+# Addons binários compilados (https://nodejs.org/api/addons.html)
+build/Release/
+
+# Diretórios de dependências
+jspm_packages/
+
+# Cache do TypeScript
+*.tsbuildinfo
+
+# Diretório de cache opcional do npm
+.npm/
+
+# Cache opcional do eslint
+.eslintcache
+
+# Histórico opcional do REPL
+.node_repl_history
+
+# Saída do 'npm pack'
+*.tgz
+
+# Arquivo de integridade do Yarn
+.yarn-integrity
+
+# Arquivo de variáveis de ambiente dotenv
+.env
+
+# Saída de build do next.js
+.next/
+
+# Saída de build / generate do Nuxt.js
+.nuxt/
+
+# Arquivos do Gatsby
+.cache/
+public/
+
+# Saída de build do vuepress
+.vuepress/dist/
+
+# Diretórios do Serverless
+.serverless/
+
+# Cache do FuseBox
+.fusebox/
+
+# Arquivos locais do DynamoDB
+.dynamodb/
+
+# Arquivo de porta do TernJS
+.tern-port
+
+# Diretórios do VS Code
+.vscode/
+
+# Diretórios do IntelliJ IDEA
+.idea/
+
+# Cache do SASS
+.sass-cache/
+
+# Cache opcional do stylelint
+.stylelintcache
+
+# Diretórios de build
+bin/
+obj/
+
+# Arquivos específicos do usuário
+*.user
+*.rsuser
+*.suo
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Arquivos de configuração
+appsettings.Development.json
+appsettings.json
+
+# Rider
+.idea/
+
+# ReSharper
+_ReSharper*/
