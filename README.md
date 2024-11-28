@@ -4,12 +4,11 @@
 
 A BURGUERMANIA API é uma aplicação para gerenciar pedidos e produtos de uma hamburgueria. Esta API permite criar, ler, atualizar e deletar informações sobre os produtos e pedidos.
 
-
 ## Tecnologias Utilizadas
 
-- Node.js
-- Express
-- MongoDB
+- .NET
+- ASP.NET Core
+- MySQL
 
 ## Como Executar
 
@@ -19,17 +18,22 @@ A BURGUERMANIA API é uma aplicação para gerenciar pedidos e produtos de uma h
     git clone https://github.com/seu-usuario/myBURGUERMANIA-API.git
     ```
 
-2. Instale as dependências:
+2. Navegue até o diretório do projeto:
 
     ```bash
     cd myBURGUERMANIA-API
-    npm install
     ```
 
-3. Inicie o servidor:
+3. Restaure as dependências:
 
     ```bash
-    npm start
+    dotnet restore
+    ```
+
+4. Inicie o servidor:
+
+    ```bash
+    dotnet run
     ```
 
 ## Contribuição
