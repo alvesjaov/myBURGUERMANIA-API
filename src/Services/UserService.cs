@@ -45,12 +45,12 @@ namespace myBURGUERMANIA_API.Services
             return user;
         }
 
-        public User? GetUser(int id)
+        public User? GetUser(string id)
         {
             return _context.Users.Find(id);
         }
 
-        public bool UpdateUser(int id, UpdateUserDto updateUserDTO)
+        public bool UpdateUser(string id, UpdateUserDto updateUserDTO)
         {
             var user = _context.Users.Find(id);
             if (user == null) return false;
@@ -64,7 +64,7 @@ namespace myBURGUERMANIA_API.Services
             return true;
         }
 
-        public bool DeleteUser(int id)
+        public bool DeleteUser(string id)
         {
             var user = _context.Users.Find(id);
             if (user == null) return false;
@@ -78,7 +78,7 @@ namespace myBURGUERMANIA_API.Services
         {
             bool isValidEmail = ValidationHelper.IsValidEmail(createUserDTO.Email);
             bool isValidCPF = ValidationHelper.IsValidCPF(createUserDTO.CPF);
-            bool isAdult = ValidationHelper.IsAdult(createUserDTO.BirthDate.ToDateTime(TimeOnly.MinValue));
+            bool isAdult = ValidationHelper.IsAdult(createUserDTO.BirthDate);
             bool isValidName = ValidationHelper.IsValidName(createUserDTO.Name);
 
             Console.WriteLine($"Validating User: Email={isValidEmail}, CPF={isValidCPF}, IsAdult={isAdult}, Name={isValidName}");
@@ -90,7 +90,7 @@ namespace myBURGUERMANIA_API.Services
         {
             bool isValidEmail = ValidationHelper.IsValidEmail(updateUserDTO.Email);
             bool isValidCPF = ValidationHelper.IsValidCPF(updateUserDTO.CPF);
-            bool isAdult = ValidationHelper.IsAdult(updateUserDTO.BirthDate.ToDateTime(TimeOnly.MinValue));
+            bool isAdult = ValidationHelper.IsAdult(updateUserDTO.BirthDate);
             bool isValidName = ValidationHelper.IsValidName(updateUserDTO.Name);
 
             Console.WriteLine($"Validating User: Email={isValidEmail}, CPF={isValidCPF}, IsAdult={isAdult}, Name={isValidName}");

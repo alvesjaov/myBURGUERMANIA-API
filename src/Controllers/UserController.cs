@@ -42,7 +42,7 @@ namespace myBURGUERMANIA_API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUser(int id)
+        public IActionResult GetUser(string id)
         {
             var user = _userService.GetUser(id);
             if (user == null)
@@ -56,7 +56,7 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateUser(int id, [FromBody] UpdateUserDto updateUserDTO)
+        public IActionResult UpdateUser(string id, [FromBody] UpdateUserDto updateUserDTO)
         {
             if (!UserService.IsValidUser(updateUserDTO))
             {
@@ -74,7 +74,7 @@ namespace myBURGUERMANIA_API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(string id)
         {
             if (!_userService.DeleteUser(id))
             {

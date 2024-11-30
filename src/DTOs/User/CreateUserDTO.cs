@@ -17,7 +17,7 @@ namespace myBURGUERMANIA_API.DTOs.User
         public string CPF { get; set; } = string.Empty;
         
         [Required]
-        public DateOnly BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
         
         [Required]
         [StringLength(15)]
