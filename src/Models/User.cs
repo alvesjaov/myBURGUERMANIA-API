@@ -5,6 +5,7 @@ namespace myBURGUERMANIA_API.Models
 {
     public class User
     {
+        [Key]
         [Required]
         [StringLength(36)]
         public string Id { get; set; } = string.Empty; // Definir comprimento máximo
