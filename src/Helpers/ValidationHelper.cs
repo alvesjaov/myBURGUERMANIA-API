@@ -10,9 +10,10 @@ namespace myBURGUERMANIA_API.Helpers
         {
             return !string.IsNullOrWhiteSpace(name) && name.Length >= 3;
         }
+        
         public static bool IsValidEmail(string email)
         {
-            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            var emailRegex = new Regex(@"^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$");
             return emailRegex.IsMatch(email);
         }
 
