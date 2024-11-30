@@ -1,10 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace myBURGUERMANIA_API.Models
 {
     public class User
     {
-        public int Id { get; set; }
+        [Required]
+        [StringLength(36)]
+        public string Id { get; set; } = string.Empty; // Definir comprimento máximo
         
         [Required]
         [StringLength(50)]
