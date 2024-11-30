@@ -47,14 +47,21 @@ namespace myBURGUERMANIA_API.Services
 
         public User? GetUser(string id)
         {
-            return _context.Users.Find(id);
+            var user = _context.Users.Find(id);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("Usuário não encontrado.");
+            }
+            return user;
         }
 
         public bool UpdateUser(string id, UpdateUserDto updateUserDTO)
         {
             var user = _context.Users.Find(id);
-            if (user == null) return false;
-
+            if (user == null)
+            {
+                throw new KeyNotFoundException("Usuário não encontrado.");
+            }
             user.Name = updateUserDTO.Name;
             user.Email = updateUserDTO.Email;
             user.CPF = updateUserDTO.CPF;
@@ -67,8 +74,10 @@ namespace myBURGUERMANIA_API.Services
         public bool DeleteUser(string id)
         {
             var user = _context.Users.Find(id);
-            if (user == null) return false;
-
+            if (user == null)
+            {
+                throw new KeyNotFoundException("Usuário não encontrado.");
+            }
             _context.Users.Remove(user);
             _context.SaveChanges();
             return true;

@@ -26,12 +26,17 @@ namespace myBURGUERMANIA_API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductDto), 200)]
         [ProducesResponseType(404)]
-        public IActionResult GetById(int id) 
+        public IActionResult GetById(string id) 
         {
-            var product = _productService.GetById(id); 
-            if (product == null)
+            try
+            {
+                var product = _productService.GetById(id); 
+                return Ok(new { message = "Produto encontrado.", data = product });
+            }
+            catch (KeyNotFoundException)
+            {
                 return NotFound(new { message = "Produto não encontrado." });
-            return Ok(new { message = "Produto encontrado.", data = product });
+            }
         }
 
         [HttpPost]
@@ -55,7 +60,7 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Update(int id, [FromBody] UpdateProductDto dto) 
+        public IActionResult Update(string id, [FromBody] UpdateProductDto dto) 
         {
             try
             {
@@ -75,7 +80,7 @@ namespace myBURGUERMANIA_API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(string id) 
         {
             try
             {

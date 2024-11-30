@@ -21,10 +21,14 @@ namespace myBURGUERMANIA_API.Services
             return _context.Products.Select(p => new ProductDto(p));
         }
 
-        public ProductDto? GetById(int id) 
+        public ProductDto? GetById(string id) 
         {
             var product = _context.Products.Find(id);
-            return product == null ? null : new ProductDto(product);
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Produto não encontrado.");
+            }
+            return new ProductDto(product);
         }
 
         public Product Create(CreateProductDto dto)
@@ -46,27 +50,29 @@ namespace myBURGUERMANIA_API.Services
             return newProduct; // Retornar o produto criado
         }
 
-        public void Update(int id, UpdateProductDto dto) 
+        public void Update(string id, UpdateProductDto dto) 
         {
             var product = _context.Products.Find(id);
-            if (product != null)
+            if (product == null)
             {
-                product.Title = dto.Title;
-                product.Price = dto.Price;
-                product.Description = dto.Description;
-                product.Image = dto.Image;
-                _context.SaveChanges();
+                throw new KeyNotFoundException("Produto não encontrado.");
             }
+            product.Title = dto.Title;
+            product.Price = dto.Price;
+            product.Description = dto.Description;
+            product.Image = dto.Image;
+            _context.SaveChanges();
         }
 
-        public void Delete(int id) 
+        public void Delete(string id) 
         {
             var product = _context.Products.Find(id);
-            if (product != null)
+            if (product == null)
             {
-                _context.Products.Remove(product);
-                _context.SaveChanges();
+                throw new KeyNotFoundException("Produto não encontrado.");
             }
+            _context.Products.Remove(product);
+            _context.SaveChanges();
         }
     }
 }

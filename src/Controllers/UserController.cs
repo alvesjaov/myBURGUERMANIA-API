@@ -44,12 +44,15 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetUser(string id)
         {
-            var user = _userService.GetUser(id);
-            if (user == null)
+            try
+            {
+                var user = _userService.GetUser(id);
+                return Ok(user);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound(new { message = "Usuário não encontrado." });
             }
-            return Ok(user);
         }
 
         [HttpPut("{id}")]
@@ -63,12 +66,15 @@ namespace myBURGUERMANIA_API.Controllers
                 return BadRequest(new { message = "Dados inválidos." });
             }
 
-            if (!_userService.UpdateUser(id, updateUserDTO))
+            try
+            {
+                _userService.UpdateUser(id, updateUserDTO);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound(new { message = "Usuário não encontrado." });
             }
-
-            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -76,11 +82,15 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult DeleteUser(string id)
         {
-            if (!_userService.DeleteUser(id))
+            try
+            {
+                _userService.DeleteUser(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound(new { message = "Usuário não encontrado." });
             }
-            return NoContent();
         }
     }
 }
