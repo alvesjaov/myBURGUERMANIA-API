@@ -12,6 +12,7 @@ namespace myBURGUERMANIA_API.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +41,31 @@ namespace myBURGUERMANIA_API.Data
                     .HasMaxLength(15)
                     .IsRequired()
                     .HasColumnType("varchar(15)");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasKey(e => e.Id); // Definindo Id como chave primária
+                entity.Property(e => e.Id).HasColumnType("varchar(36)"); // Configurando como string
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(50)
+                    .IsRequired()
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Price)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(255)
+                    .IsRequired()
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(100)
+                    .IsRequired()
+                    .HasColumnType("varchar(100)");
             });
         }
     }
