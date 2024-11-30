@@ -33,6 +33,7 @@ namespace myBURGUERMANIA_API.Services
 
             var user = new User
             {
+                Id = IdHelper.GenerateRandomId(), // Gerar ID aleatório
                 Name = createUserDTO.Name,
                 Email = createUserDTO.Email,
                 CPF = createUserDTO.CPF,

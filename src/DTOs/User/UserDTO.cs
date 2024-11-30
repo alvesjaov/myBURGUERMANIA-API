@@ -4,7 +4,10 @@ namespace myBURGUERMANIA_API.DTOs.User
 {
     public class UserDto
     {
-        public int Id { get; set; }
+        [Key]
+        [Required]
+        [StringLength(36)]
+        public string Id { get; set; } = string.Empty; // Definir comprimento máximo
         
         [Required]
         [StringLength(50)]
