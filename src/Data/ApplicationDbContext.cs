@@ -20,6 +20,12 @@ namespace myBURGUERMANIA_API.Data
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasKey(e => e.Id); // Definindo Id como chave primária
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36) // Definir comprimento máximo
+                    .IsRequired()
+                    .HasColumnType("varchar(36)"); // Configurando como string
+
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsRequired()
@@ -46,7 +52,10 @@ namespace myBURGUERMANIA_API.Data
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.Id); // Definindo Id como chave primária
-                entity.Property(e => e.Id).HasColumnType("varchar(36)"); // Configurando como string
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36) // Definir comprimento máximo
+                    .IsRequired()
+                    .HasColumnType("varchar(36)"); // Configurando como string
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
