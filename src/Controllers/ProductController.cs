@@ -39,9 +39,16 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(400)]
         public IActionResult Create(CreateProductDto dto)
         {
-            var product = _productService.Create(dto);
-            var productDto = new ProductDto(product);
-            return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { message = "Produto criado com sucesso.", data = productDto });
+            try
+            {
+                var product = _productService.Create(dto);
+                var productDto = new ProductDto(product);
+                return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { message = "Produto criado com sucesso.", data = productDto });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = "Erro ao criar produto", details = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]

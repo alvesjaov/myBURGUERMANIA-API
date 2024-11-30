@@ -29,6 +29,10 @@ namespace myBURGUERMANIA_API.Services
 
         public Product Create(CreateProductDto dto)
         {
+            if (_context.Products.Any(p => p.Title == dto.Title))
+            {
+                throw new ArgumentException("Já existe um produto com este nome.");
+            }
             var newProduct = new Product
             {
                 Id = IdHelper.GenerateRandomId(), // Usar o helper para gerar ID aleatório
