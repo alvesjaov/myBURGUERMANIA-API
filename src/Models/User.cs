@@ -15,18 +15,24 @@ namespace myBURGUERMANIA_API.Models
         public string Name { get; set; } = string.Empty;
         
         [Required]
+        [EmailAddress]
         [StringLength(30)]
         public string Email { get; set; } = string.Empty;
         
         [Required]
-        [StringLength(11)]
+        [RegularExpression(@"\d{11}", ErrorMessage = "CPF deve ter 11 dígitos")]
         public string CPF { get; set; } = string.Empty;
         
         [Required]
         public DateTime BirthDate { get; set; }
         
         [Required]
+        [Phone]
         [StringLength(15)]
         public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required]
+        [MinLength(6)]
+        public string Password { get; set; } = string.Empty; // Novo campo de senha
     }
 }

@@ -1,8 +1,10 @@
 using myBURGUERMANIA_API.Models;
 using myBURGUERMANIA_API.DTOs.User;
-using myBURGUERMANIA_API.Helpers;
 using myBURGUERMANIA_API.Data;
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
+using myBURGUERMANIA_API.Helpers;
 
 namespace myBURGUERMANIA_API.Services
 {
@@ -31,6 +33,11 @@ namespace myBURGUERMANIA_API.Services
                 throw new ArgumentException("Email já cadastrado.");
             }
 
+            if (!PasswordValidator.IsValidPassword(createUserDTO.Password))
+            {
+                throw new ArgumentException("A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.");
+            }
+
             var user = new User
             {
                 Id = IdHelper.GenerateRandomId(), // Gerar ID aleatório
@@ -38,7 +45,8 @@ namespace myBURGUERMANIA_API.Services
                 Email = createUserDTO.Email,
                 CPF = createUserDTO.CPF,
                 BirthDate = createUserDTO.BirthDate,
-                PhoneNumber = createUserDTO.PhoneNumber
+                PhoneNumber = createUserDTO.PhoneNumber,
+                Password = PasswordHelper.HashPassword(createUserDTO.Password) // Criptografar senha
             };
             _context.Users.Add(user);
             _context.SaveChanges();
@@ -67,6 +75,14 @@ namespace myBURGUERMANIA_API.Services
             user.CPF = updateUserDTO.CPF;
             user.BirthDate = updateUserDTO.BirthDate;
             user.PhoneNumber = updateUserDTO.PhoneNumber;
+            if (!string.IsNullOrEmpty(updateUserDTO.Password))
+            {
+                if (!PasswordValidator.IsValidPassword(updateUserDTO.Password))
+                {
+                    throw new ArgumentException("A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.");
+                }
+                user.Password = PasswordHelper.HashPassword(updateUserDTO.Password); // Criptografar senha
+            }
             _context.SaveChanges();
             return true;
         }

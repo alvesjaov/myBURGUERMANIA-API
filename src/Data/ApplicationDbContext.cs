@@ -47,6 +47,10 @@ namespace myBURGUERMANIA_API.Data
                     .HasMaxLength(15)
                     .IsRequired()
                     .HasColumnType("varchar(15)");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasColumnType("varchar(255)"); 
             });
 
             modelBuilder.Entity<Product>(entity =>
