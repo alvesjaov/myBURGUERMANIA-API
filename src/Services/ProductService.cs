@@ -10,6 +10,7 @@ namespace myBURGUERMANIA_API.Services
     public class ProductService
     {
         private readonly ApplicationDbContext _context;
+        private const string ProductNotFound = "Produto não encontrado.";
 
         public ProductService(ApplicationDbContext context)
         {
@@ -26,7 +27,7 @@ namespace myBURGUERMANIA_API.Services
             var product = _context.Products.Find(id);
             if (product == null)
             {
-                throw new KeyNotFoundException("Produto não encontrado.");
+                throw new KeyNotFoundException(ProductNotFound);
             }
             return new ProductDto(product);
         }
@@ -75,7 +76,7 @@ namespace myBURGUERMANIA_API.Services
             var product = _context.Products.Find(id);
             if (product == null)
             {
-                throw new KeyNotFoundException("Produto não encontrado.");
+                throw new KeyNotFoundException(ProductNotFound);
             }
             product.Title = dto.Title;
             product.Price = dto.Price;
@@ -90,7 +91,7 @@ namespace myBURGUERMANIA_API.Services
             var product = _context.Products.Find(id);
             if (product == null)
             {
-                throw new KeyNotFoundException("Produto não encontrado.");
+                throw new KeyNotFoundException(ProductNotFound);
             }
             _context.Products.Remove(product);
             _context.SaveChanges();

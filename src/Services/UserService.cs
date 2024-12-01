@@ -11,6 +11,7 @@ namespace myBURGUERMANIA_API.Services
     public class UserService
     {
         private readonly ApplicationDbContext _context;
+        private const string UserNotFound = "Usuário não encontrado.";
 
         public UserService(ApplicationDbContext context)
         {
@@ -58,7 +59,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.Find(id);
             if (user == null)
             {
-                throw new KeyNotFoundException("Usuário não encontrado.");
+                throw new KeyNotFoundException(UserNotFound);
             }
             return user;
         }
@@ -68,7 +69,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.FirstOrDefault(u => u.CPF == cpf);
             if (user == null)
             {
-                throw new KeyNotFoundException("Usuário não encontrado.");
+                throw new KeyNotFoundException(UserNotFound);
             }
             return user;
         }
@@ -78,7 +79,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.Find(id);
             if (user == null)
             {
-                throw new KeyNotFoundException("Usuário não encontrado.");
+                throw new KeyNotFoundException(UserNotFound);
             }
             user.Name = updateUserDTO.Name;
             user.Email = updateUserDTO.Email;
@@ -102,7 +103,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.Find(id);
             if (user == null)
             {
-                throw new KeyNotFoundException("Usuário não encontrado.");
+                throw new KeyNotFoundException(UserNotFound);
             }
             _context.Users.Remove(user);
             _context.SaveChanges();
@@ -116,8 +117,6 @@ namespace myBURGUERMANIA_API.Services
             bool isAdult = ValidationHelper.IsAdult(createUserDTO.BirthDate);
             bool isValidName = ValidationHelper.IsValidName(createUserDTO.Name);
 
-            Console.WriteLine($"Validating User: Email={isValidEmail}, CPF={isValidCPF}, IsAdult={isAdult}, Name={isValidName}");
-
             return isValidEmail && isValidCPF && isAdult && isValidName;
         }
 
@@ -127,8 +126,6 @@ namespace myBURGUERMANIA_API.Services
             bool isValidCPF = ValidationHelper.IsValidCPF(updateUserDTO.CPF);
             bool isAdult = ValidationHelper.IsAdult(updateUserDTO.BirthDate);
             bool isValidName = ValidationHelper.IsValidName(updateUserDTO.Name);
-
-            Console.WriteLine($"Validating User: Email={isValidEmail}, CPF={isValidCPF}, IsAdult={isAdult}, Name={isValidName}");
 
             return isValidEmail && isValidCPF && isAdult && isValidName;
         }
