@@ -20,7 +20,20 @@ namespace myBURGUERMANIA_API.Controllers
         public IActionResult GetAll()
         {
             var products = _productService.GetAll(); 
-            return Ok(new { message = "Produtos encontrados", data = products });
+            return Ok(new { mensagem = "Produtos encontrados", produtos = products });
+        }
+
+        [HttpGet("category/{category}")]
+        [ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
+        [ProducesResponseType(404)]
+        public IActionResult GetByCategory(string category)
+        {
+            var products = _productService.GetByCategory(category);
+            if (!products.Any())
+            {
+                return NotFound(new { mensagem = "Nenhum produto encontrado para esta categoria." });
+            }
+            return Ok(new { mensagem = "Produtos encontrados", produtos = products });
         }
 
         [HttpGet("{id}")]
@@ -31,11 +44,11 @@ namespace myBURGUERMANIA_API.Controllers
             try
             {
                 var product = _productService.GetById(id); 
-                return Ok(new { message = "Produto encontrado.", data = product });
+                return Ok(new { mensagem = "Produto encontrado.", produto = product });
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Produto não encontrado." });
+                return NotFound(new { mensagem = "Produto não encontrado." });
             }
         }
 
@@ -48,11 +61,11 @@ namespace myBURGUERMANIA_API.Controllers
             {
                 var product = _productService.Create(dto);
                 var productDto = new ProductDto(product);
-                return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { message = "Produto criado com sucesso.", data = productDto });
+                return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { mensagem = "Produto criado com sucesso.", produto = productDto });
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { message = "Erro ao criar produto", details = ex.Message });
+                return BadRequest(new { mensagem = "Erro ao criar produto", detalhe = ex.Message });
             }
         }
 
@@ -69,11 +82,11 @@ namespace myBURGUERMANIA_API.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { mensagem = ex.Message });
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Produto não encontrado." });
+                return NotFound(new { mensagem = "Produto não encontrado." });
             }
         }
 
@@ -89,7 +102,7 @@ namespace myBURGUERMANIA_API.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Produto não encontrado." });
+                return NotFound(new { mensagem = "Produto não encontrado." });
             }
         }
     }

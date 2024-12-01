@@ -31,14 +31,21 @@ namespace myBURGUERMANIA_API.Services
             return new ProductDto(product);
         }
 
+        public IEnumerable<ProductDto> GetByCategory(string category)
+        {
+            return _context.Products
+                .Where(p => p.Category == category)
+                .Select(p => new ProductDto(p));
+        }
+
         private static string GetCategoryName(int category)
         {
             return category switch
             {
-                1 => "Hambúrguer",
-                2 => "Porção",
-                3 => "Bebida",
-                4 => "Sobremesa",
+                1 => "Hambúrgueres",
+                2 => "Porções",
+                3 => "Bebidas",
+                4 => "Sobremesas",
                 _ => throw new ArgumentException("Categoria inválida.")
             };
         }
