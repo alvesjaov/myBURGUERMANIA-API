@@ -19,31 +19,18 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
         public IActionResult GetAll()
         {
-            var products = _productService.GetAll(); 
-            return Ok(new { mensagem = "Produtos encontrados", produtos = products });
-        }
-
-        [HttpGet("category/{category}")]
-        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status404NotFound)]
-        public IActionResult GetByCategory(string category)
-        {
-            var products = _productService.GetByCategory(category);
-            if (!products.Any())
-            {
-                return NotFound(new { mensagem = "Nenhum produto encontrado para esta categoria." });
-            }
+            var products = _productService.GetAll();
             return Ok(new { mensagem = "Produtos encontrados", produtos = products });
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
-        public IActionResult GetById(string id) 
+        public IActionResult GetById(string id)
         {
             try
             {
-                var product = _productService.GetById(id); 
+                var product = _productService.GetById(id);
                 return Ok(new { mensagem = "Produto encontrado.", produto = product });
             }
             catch (KeyNotFoundException)
@@ -52,37 +39,31 @@ namespace myBURGUERMANIA_API.Controllers
             }
         }
 
+        [HttpGet("category/{categoryId}")]
+        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
+        public IActionResult GetByCategory(string categoryId)
+        {
+            var products = _productService.GetByCategory(categoryId);
+            return Ok(new { mensagem = "Produtos encontrados", produtos = products });
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status400BadRequest)]
         public IActionResult Create(CreateProductDto dto)
         {
-            try
-            {
-                var product = _productService.Create(dto);
-                var productDto = new ProductDto(product);
-                return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { mensagem = "Produto criado com sucesso.", produto = productDto });
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { mensagem = "Erro ao criar produto", detalhe = ex.Message });
-            }
+            var productDto = _productService.Create(dto);
+            return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { mensagem = "Produto criado com sucesso.", produto = productDto });
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status400BadRequest)]
-        public IActionResult Update(string id, [FromBody] UpdateProductDto dto) 
+        public IActionResult Update(string id, UpdateProductDto dto)
         {
             try
             {
-                _productService.Update(id, dto); 
+                _productService.Update(id, dto);
                 return NoContent();
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { mensagem = ex.Message });
             }
             catch (KeyNotFoundException)
             {
@@ -91,13 +72,13 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
-        public IActionResult Delete(string id) 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Delete(string id)
         {
             try
             {
-                _productService.Delete(id); 
+                _productService.Delete(id);
                 return NoContent();
             }
             catch (KeyNotFoundException)

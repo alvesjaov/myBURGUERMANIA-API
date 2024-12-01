@@ -14,7 +14,7 @@ namespace myBURGUERMANIA_API.Models
     {
         [Key]
         [StringLength(36)]
-        public required string Id { get; set; } // Alterado para string
+        public required string Id { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -32,7 +32,9 @@ namespace myBURGUERMANIA_API.Models
         public required string Image { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public required string Category { get; set; } // Atualizado para string
+        public required string CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public required Category Category { get; set; }
     }
 }

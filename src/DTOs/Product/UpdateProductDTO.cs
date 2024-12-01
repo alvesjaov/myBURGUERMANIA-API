@@ -8,6 +8,7 @@ namespace myBURGUERMANIA_API.DTOs.Product
         public double Price { get; set; }
         public required string Description { get; set; }
         public required string Image { get; set; }
-        public required ProductCategory Category { get; set; } // Atualizado para usar enum
+        public required ProductCategory Category { get; set; } 
+        public required string CategoryId { get; set; } // Adicionado para armazenar o ID da categoria
     }
 }

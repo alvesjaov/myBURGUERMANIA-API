@@ -1,4 +1,5 @@
 using myBURGUERMANIA_API.Models;
+using myBURGUERMANIA_API.DTOs.Category;
 
 namespace myBURGUERMANIA_API.DTOs.Product
 {
@@ -11,7 +12,7 @@ namespace myBURGUERMANIA_API.DTOs.Product
             Price = product.Price;
             Description = product.Description;
             Image = product.Image;
-            Category = product.Category; // Atualizado para string
+            CategoryId = product.CategoryId; // Armazenar apenas o ID da categoria
         }
 
         public string Id { get; set; } // Alterado para string
@@ -19,6 +20,6 @@ namespace myBURGUERMANIA_API.DTOs.Product
         public double Price { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public string Category { get; set; } // Atualizado para string
+        public string CategoryId { get; set; } // Armazenar apenas o ID da categoria
     }
 }
