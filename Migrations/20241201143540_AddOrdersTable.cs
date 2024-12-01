@@ -10,9 +10,6 @@ namespace myBURGUERMANIA_API.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Orders");
-
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
