@@ -46,6 +46,11 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetUserByCpf(string cpf)
         {
+            if (cpf.Contains(".") || cpf.Contains("-") || !cpf.All(char.IsDigit))
+            {
+                return BadRequest(new { mensagem = "O CPF deve conter apenas números." });
+            }
+
             try
             {
                 var user = _userService.GetUserByCpf(cpf);

@@ -24,6 +24,11 @@ namespace myBURGUERMANIA_API.Services
 
         public User CreateUser(CreateUserDto createUserDTO)
         {
+            if (createUserDTO.CPF.Contains(".") || createUserDTO.CPF.Contains("-") || !createUserDTO.CPF.All(char.IsDigit))
+            {
+                throw new ArgumentException("O CPF deve conter apenas números.");
+            }
+
             if (_context.Users.Any(u => u.CPF == createUserDTO.CPF))
             {
                 throw new ArgumentException("CPF já cadastrado.");
@@ -66,6 +71,11 @@ namespace myBURGUERMANIA_API.Services
 
         public User GetUserByCpf(string cpf)
         {
+            if (cpf.Contains(".") || cpf.Contains("-") || !cpf.All(char.IsDigit))
+            {
+                throw new ArgumentException("O CPF deve conter apenas números.");
+            }
+
             var user = _context.Users.FirstOrDefault(u => u.CPF == cpf);
             if (user == null)
             {
@@ -76,6 +86,11 @@ namespace myBURGUERMANIA_API.Services
 
         public bool UpdateUser(string id, UpdateUserDto updateUserDTO)
         {
+            if (updateUserDTO.CPF.Contains(".") || updateUserDTO.CPF.Contains("-") || !updateUserDTO.CPF.All(char.IsDigit))
+            {
+                throw new ArgumentException("O CPF deve conter apenas números.");
+            }
+
             var user = _context.Users.Find(id);
             if (user == null)
             {
