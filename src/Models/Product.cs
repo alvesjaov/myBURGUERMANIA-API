@@ -3,25 +3,36 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace myBURGUERMANIA_API.Models
 {
+    public enum ProductCategory
+    {
+        Hamburguer = 1,
+        Porcao = 2,
+        Bebida = 3
+    }
+
     public class Product
     {
         [Key]
         [StringLength(36)]
-        public string Id { get; set; } // Alterado para string
+        public required string Id { get; set; } // Alterado para string
 
         [Required]
         [StringLength(50)]
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         [Required]
-        public double Price { get; set; }
+        public required double Price { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string Image { get; set; }
+        public required string Image { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public required string Category { get; set; } // Atualizado para string
     }
 }

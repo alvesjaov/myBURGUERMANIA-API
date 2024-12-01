@@ -79,6 +79,11 @@ namespace myBURGUERMANIA_API.Data
                     .HasMaxLength(100)
                     .IsRequired()
                     .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Category)
+                    .HasMaxLength(20) // Atualizado para comprimento máximo de 20
+                    .IsRequired()
+                    .HasColumnType("varchar(20)"); // Nova coluna para categoria
             });
         }
     }

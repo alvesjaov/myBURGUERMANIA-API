@@ -31,6 +31,18 @@ namespace myBURGUERMANIA_API.Services
             return new ProductDto(product);
         }
 
+        private static string GetCategoryName(int category)
+        {
+            return category switch
+            {
+                1 => "Hambúrguer",
+                2 => "Porção",
+                3 => "Bebida",
+                4 => "Sobremesa",
+                _ => throw new ArgumentException("Categoria inválida.")
+            };
+        }
+
         public Product Create(CreateProductDto dto)
         {
             if (_context.Products.Any(p => p.Title == dto.Title))
@@ -43,7 +55,8 @@ namespace myBURGUERMANIA_API.Services
                 Title = dto.Title,
                 Price = dto.Price,
                 Description = dto.Description,
-                Image = dto.Image
+                Image = dto.Image,
+                Category = GetCategoryName((int)dto.Category) // Converter categoria para string
             };
             _context.Products.Add(newProduct);
             _context.SaveChanges();
@@ -61,6 +74,7 @@ namespace myBURGUERMANIA_API.Services
             product.Price = dto.Price;
             product.Description = dto.Description;
             product.Image = dto.Image;
+            product.Category = GetCategoryName((int)dto.Category); // Converter categoria para string
             _context.SaveChanges();
         }
 
