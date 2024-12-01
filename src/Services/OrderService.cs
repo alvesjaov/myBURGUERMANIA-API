@@ -9,6 +9,7 @@ namespace myBURGUERMANIA_API.Services
     public class OrderService
     {
         private readonly ApplicationDbContext _context;
+        private const string UserNotFound = "Usuário não encontrado.";
         private const string ProductNotFound = "Pedido não encontrado.";
 
         public OrderService(ApplicationDbContext context)
@@ -48,7 +49,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.Find(dto.UserId);
             if (user == null)
             {
-                throw new InvalidOperationException("Usuário não encontrado"); // Lançar exceção se o usuário não for encontrado
+                throw new InvalidOperationException(UserNotFound); // Lançar exceção se o usuário não for encontrado
             }
 
             var newOrder = new Order
@@ -86,7 +87,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.Find(order.UserId);
             if (user == null)
             {
-                throw new InvalidOperationException("Usuário não encontrado");
+                throw new InvalidOperationException(UserNotFound);
             }
 
             return new OrderDto
@@ -116,7 +117,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.Find(order.UserId);
             if (user == null)
             {
-                throw new InvalidOperationException("Usuário não encontrado");
+                throw new InvalidOperationException(UserNotFound);
             }
 
             return new OrderDto
@@ -146,7 +147,7 @@ namespace myBURGUERMANIA_API.Services
             var user = _context.Users.Find(order.UserId);
             if (user == null)
             {
-                throw new InvalidOperationException("Usuário não encontrado");
+                throw new InvalidOperationException(UserNotFound);
             }
 
             return new OrderDto
