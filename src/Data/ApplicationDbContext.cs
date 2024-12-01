@@ -13,6 +13,7 @@ namespace myBURGUERMANIA_API.Data
 
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!; // Adicionar DbSet para Orders
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -84,6 +85,36 @@ namespace myBURGUERMANIA_API.Data
                     .HasMaxLength(20) // Atualizado para comprimento máximo de 20
                     .IsRequired()
                     .HasColumnType("varchar(20)"); // Nova coluna para categoria
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(e => e.Id); // Definindo Id como chave primária
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36) // Definir comprimento máximo
+                    .IsRequired()
+                    .HasColumnType("varchar(36)"); // Configurando como string
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(36)
+                    .IsRequired()
+                    .HasColumnType("varchar(36)");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnType("varchar(20)");
+
+                entity.Property(e => e.TotalValue)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+
+                entity.Property(e => e.ProductIds)
+                    .IsRequired()
+                    .HasConversion(
+                        v => string.Join(',', v),
+                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
+                    )
+                    .HasColumnType("varchar(255)");
             });
         }
     }

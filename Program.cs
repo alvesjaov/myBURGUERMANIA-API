@@ -1,14 +1,9 @@
-using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using myBURGUERMANIA_API.Data;
 using myBURGUERMANIA_API.Services;
-using MySql.EntityFrameworkCore.Extensions; // Adicione esta linha
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Carregar variáveis de ambiente do arquivo .env
-DotNetEnv.Env.Load();
 
 // Alteração para MySQL
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -28,6 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>(); // Alterado para Scoped
+builder.Services.AddScoped<OrderService>(); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
