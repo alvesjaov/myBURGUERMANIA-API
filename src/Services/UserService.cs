@@ -63,6 +63,16 @@ namespace myBURGUERMANIA_API.Services
             return user;
         }
 
+        public User GetUserByCpf(string cpf)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.CPF == cpf);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("Usuário não encontrado.");
+            }
+            return user;
+        }
+
         public bool UpdateUser(string id, UpdateUserDto updateUserDTO)
         {
             var user = _context.Users.Find(id);

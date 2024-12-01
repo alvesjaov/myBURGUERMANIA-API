@@ -12,6 +12,8 @@ namespace myBURGUERMANIA_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
+        private const string DataInvalidMessage = "Dados inválidos.";
+        private const string UserNotFoundMessage = "Usuário não encontrado.";
 
         public UserController(UserService userService)
         {
@@ -25,7 +27,7 @@ namespace myBURGUERMANIA_API.Controllers
         {
             if (!UserService.IsValidUser(createUserDTO))
             {
-                return BadRequest(new { message = "Dados inválidos." });
+                return BadRequest(new { mensagem = DataInvalidMessage });
             }
 
             try
@@ -35,7 +37,23 @@ namespace myBURGUERMANIA_API.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { mensagem = ex.Message });
+            }
+        }
+
+        [HttpGet("cpf/{cpf}")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetUserByCpf(string cpf)
+        {
+            try
+            {
+                var user = _userService.GetUserByCpf(cpf);
+                return Ok(user);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { mensagem = UserNotFoundMessage });
             }
         }
 
@@ -51,7 +69,7 @@ namespace myBURGUERMANIA_API.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Usuário não encontrado." });
+                return NotFound(new { mensagem = UserNotFoundMessage });
             }
         }
 
@@ -63,7 +81,7 @@ namespace myBURGUERMANIA_API.Controllers
         {
             if (!UserService.IsValidUser(updateUserDTO))
             {
-                return BadRequest(new { message = "Dados inválidos." });
+                return BadRequest(new { mensagem = DataInvalidMessage });
             }
 
             try
@@ -71,9 +89,13 @@ namespace myBURGUERMANIA_API.Controllers
                 _userService.UpdateUser(id, updateUserDTO);
                 return NoContent();
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
+            }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Usuário não encontrado." });
+                return NotFound(new { mensagem = UserNotFoundMessage });
             }
         }
 
@@ -89,7 +111,7 @@ namespace myBURGUERMANIA_API.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Usuário não encontrado." });
+                return NotFound(new { mensagem = UserNotFoundMessage });
             }
         }
     }
