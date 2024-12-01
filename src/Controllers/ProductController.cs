@@ -16,7 +16,7 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
         public IActionResult GetAll()
         {
             var products = _productService.GetAll(); 
@@ -24,8 +24,8 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpGet("category/{category}")]
-        [ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status404NotFound)]
         public IActionResult GetByCategory(string category)
         {
             var products = _productService.GetByCategory(category);
@@ -37,8 +37,8 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ProductDto), 200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
         public IActionResult GetById(string id) 
         {
             try
@@ -53,8 +53,8 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ProductDto), 201)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status400BadRequest)]
         public IActionResult Create(CreateProductDto dto)
         {
             try
@@ -70,9 +70,9 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status400BadRequest)]
         public IActionResult Update(string id, [FromBody] UpdateProductDto dto) 
         {
             try
@@ -91,8 +91,8 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
         public IActionResult Delete(string id) 
         {
             try

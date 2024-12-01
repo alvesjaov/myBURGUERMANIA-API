@@ -7,5 +7,8 @@ namespace myBURGUERMANIA_API.DTOs.Order
         public required List<string> ProductIds { get; set; }
         public required string Status { get; set; } 
         public decimal TotalValue { get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public string UserCPF { get; set; } = string.Empty;
+        public string UserPhoneNumber { get; set; } = string.Empty;
     }
 }

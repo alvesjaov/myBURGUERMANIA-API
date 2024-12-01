@@ -2,12 +2,14 @@ using myBURGUERMANIA_API.DTOs;
 using myBURGUERMANIA_API.Helpers;
 using myBURGUERMANIA_API.Models;
 using myBURGUERMANIA_API.Data;
+using myBURGUERMANIA_API.DTOs.Order;
 
 namespace myBURGUERMANIA_API.Services
 {
     public class OrderService
     {
         private readonly ApplicationDbContext _context;
+        private const string ProductNotFound = "Pedido não encontrado.";
 
         public OrderService(ApplicationDbContext context)
         {
@@ -26,43 +28,139 @@ namespace myBURGUERMANIA_API.Services
             };
         }
 
-        public Order Create(CreateOrderDto dto)
+        private decimal CalculateTotalValue(List<string> productIds)
         {
+            var products = _context.Products.Where(p => productIds.Contains(p.Id)).ToList();
+            decimal totalValue = 0;
+            foreach (var productId in productIds)
+            {
+                var product = products.Find(p => p.Id == productId);
+                if (product != null)
+                {
+                    totalValue += (decimal)product.Price;
+                }
+            }
+            return totalValue;
+        }
+
+        public OrderDto Create(CreateOrderDto dto)
+        {
+            var user = _context.Users.Find(dto.UserId);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Usuário não encontrado"); // Lançar exceção se o usuário não for encontrado
+            }
+
             var newOrder = new Order
             {
                 Id = IdHelper.GenerateRandomId(), // Gerar ID automaticamente
                 UserId = dto.UserId,
                 ProductIds = dto.ProductIds,
                 Status = GetStatusName(dto.Status), // Converter status para string
-                TotalValue = dto.TotalValue
+                TotalValue = CalculateTotalValue(dto.ProductIds) // Calcular valor total
             };
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
-            return newOrder;
+
+            return new OrderDto
+            {
+                Id = newOrder.Id,
+                UserId = newOrder.UserId,
+                ProductIds = newOrder.ProductIds,
+                Status = newOrder.Status,
+                TotalValue = newOrder.TotalValue,
+                UserName = user.Name,
+                UserCPF = user.CPF,
+                UserPhoneNumber = user.PhoneNumber
+            };
         }
 
-        public Order GetById(string id)
+        public OrderDto GetById(string id)
         {
             var order = _context.Orders.Find(id);
             if (order == null)
             {
-                throw new ArgumentNullException(nameof(id), "Pedido não encontrado");
+                throw new KeyNotFoundException(ProductNotFound);
             }
-            return order;
+
+            var user = _context.Users.Find(order.UserId);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Usuário não encontrado");
+            }
+
+            return new OrderDto
+            {
+                Id = order.Id,
+                UserId = order.UserId,
+                ProductIds = order.ProductIds,
+                Status = order.Status,
+                TotalValue = order.TotalValue,
+                UserName = user.Name,
+                UserCPF = user.CPF,
+                UserPhoneNumber = user.PhoneNumber
+            };
         }
 
-        public Order Update(string id, UpdateOrderDto dto)
+        public OrderDto UpdateStatus(string id, int status)
         {
             var order = _context.Orders.Find(id);
             if (order == null)
             {
-                throw new ArgumentNullException(nameof(id), "Pedido não encontrado");
+                throw new KeyNotFoundException(ProductNotFound);
             }
-            order.Status = dto.Status.HasValue ? GetStatusName(dto.Status.Value) : order.Status; // Converter status para string
-            order.ProductIds = dto.ProductIds ?? order.ProductIds;
-            order.TotalValue = dto.TotalValue != 0 ? dto.TotalValue : order.TotalValue;
+
+            order.Status = GetStatusName(status); // Converter status para string
             _context.SaveChanges();
-            return order;
+
+            var user = _context.Users.Find(order.UserId);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Usuário não encontrado");
+            }
+
+            return new OrderDto
+            {
+                Id = order.Id,
+                UserId = order.UserId,
+                ProductIds = order.ProductIds,
+                Status = order.Status,
+                TotalValue = order.TotalValue,
+                UserName = user.Name,
+                UserCPF = user.CPF,
+                UserPhoneNumber = user.PhoneNumber
+            };
         }
+
+        public OrderDto Cancel(string id)
+        {
+            var order = _context.Orders.Find(id);
+            if (order == null)
+            {
+                throw new KeyNotFoundException(ProductNotFound);
+            }
+
+            order.Status = "Cancelado"; // Marcar o pedido como cancelado
+            _context.SaveChanges();
+
+            var user = _context.Users.Find(order.UserId);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Usuário não encontrado");
+            }
+
+            return new OrderDto
+            {
+                Id = order.Id,
+                UserId = order.UserId,
+                ProductIds = order.ProductIds,
+                Status = order.Status,
+                TotalValue = order.TotalValue,
+                UserName = user.Name,
+                UserCPF = user.CPF,
+                UserPhoneNumber = user.PhoneNumber
+            };
+        }
+
     }
 }

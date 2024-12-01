@@ -22,7 +22,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status400BadRequest)]
         public IActionResult CreateUser([FromBody] CreateUserDto createUserDTO)
         {
             if (!UserService.IsValidUser(createUserDTO))
@@ -43,7 +43,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpGet("cpf/{cpf}")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]
         public IActionResult GetUserByCpf(string cpf)
         {
             if (cpf.Contains(".") || cpf.Contains("-") || !cpf.All(char.IsDigit))
@@ -80,8 +80,8 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status400BadRequest)]
         public IActionResult UpdateUser(string id, [FromBody] UpdateUserDto updateUserDTO)
         {
             if (!UserService.IsValidUser(updateUserDTO))
@@ -106,7 +106,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteUser(string id)
         {
             try
