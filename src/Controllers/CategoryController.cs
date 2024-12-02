@@ -18,6 +18,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCategories()
         {
             var categories = await _categoryService.GetAllCategoriesWithProductsAsync();
