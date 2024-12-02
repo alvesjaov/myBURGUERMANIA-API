@@ -39,25 +39,26 @@ namespace myBURGUERMANIA_API.Controllers
             }
         }
 
-        [HttpGet("category/{categoryId}")]
-        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
-        public IActionResult GetByCategory(string categoryId)
-        {
-            var products = _productService.GetByCategory(categoryId);
-            return Ok(new { mensagem = "Produtos encontrados", produtos = products });
-        }
-
         [HttpPost]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status400BadRequest)]
         public IActionResult Create(CreateProductDto dto)
         {
-            var productDto = _productService.Create(dto);
-            return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { mensagem = "Produto criado com sucesso.", produto = productDto });
+            try
+            {
+                var productDto = _productService.Create(dto);
+                return CreatedAtAction(nameof(GetById), new { id = productDto.Id }, new { mensagem = "Produto criado com sucesso.", produto = productDto });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status400BadRequest)]
         public IActionResult Update(string id, UpdateProductDto dto)
         {
             try
@@ -69,11 +70,16 @@ namespace myBURGUERMANIA_API.Controllers
             {
                 return NotFound(new { mensagem = "Produto não encontrado." });
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status400BadRequest)]
         public IActionResult Delete(string id)
         {
             try
@@ -84,6 +90,10 @@ namespace myBURGUERMANIA_API.Controllers
             catch (KeyNotFoundException)
             {
                 return NotFound(new { mensagem = "Produto não encontrado." });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
     }

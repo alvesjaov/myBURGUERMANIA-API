@@ -49,7 +49,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status400BadRequest)]
         public IActionResult Create(CreateCategoryDto dto)
         {
             try
@@ -66,7 +66,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status404NotFound)]
         public IActionResult Update(string id, UpdateCategoryDto dto)
         {
             try
@@ -82,7 +82,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status404NotFound)]
         public IActionResult Delete(string id)
         {
             try
