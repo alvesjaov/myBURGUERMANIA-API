@@ -53,6 +53,10 @@ namespace myBURGUERMANIA_API.Controllers
             {
                 return BadRequest(new { mensagem = ex.Message });
             }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
@@ -66,7 +70,7 @@ namespace myBURGUERMANIA_API.Controllers
                 _productService.Update(id, dto);
                 return NoContent();
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(new { mensagem = "Produto não encontrado." });
             }

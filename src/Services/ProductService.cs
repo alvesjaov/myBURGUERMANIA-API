@@ -87,6 +87,11 @@ namespace myBURGUERMANIA_API.Services
             {
                 throw new KeyNotFoundException(ProductNotFound);
             }
+            var category = _context.Categories.Find(dto.CategoryId);
+            if (category == null)
+            {
+                throw new KeyNotFoundException("Categoria não encontrada.");
+            }
             product.Title = dto.Title;
             product.Price = dto.Price;
             product.Description = dto.Description;
