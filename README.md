@@ -2,7 +2,6 @@
 
 A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma hamburgueria. Esta API permite criar, ler, atualizar e deletar informações sobre os produtos e pedidos.
 
-
 ## 🛠️ Tecnologias Utilizadas
 
 - .NET
@@ -23,19 +22,37 @@ A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma 
     cd myBURGUERMANIA-API
     ```
 
-3. Restaure as dependências:
+3. Crie o arquivo `appsettings.json` com as configurações necessárias:
+
+    ```json
+    {
+      "ConnectionStrings": {
+        "DefaultConnection": "Server=localhost;Database=burguer_mania;User Id=root;Password=yourpassword;"
+      },
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "AllowedHosts": "*"
+    }
+    ```
+
+4. Restaure as dependências:
 
     ```bash
     dotnet restore
     ```
 
-4. Atualize o banco de dados:
+5. Atualize o banco de dados:
 
     ```bash
     dotnet ef database update
     ```
 
-5. Inicie o servidor:
+6. Inicie o servidor:
 
     ```bash
     dotnet run
