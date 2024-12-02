@@ -1,6 +1,6 @@
 # 🍔 Burguer Mania API
 
-A BURGUERMANIA API é uma aplicação para gerenciar pedidos e produtos de uma hamburgueria. Esta API permite criar, ler, atualizar e deletar informações sobre os produtos e pedidos.
+A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma hamburgueria. Esta API permite criar, ler, atualizar e deletar informações sobre os produtos e pedidos.
 
 
 ## 🛠️ Tecnologias Utilizadas
@@ -44,7 +44,3 @@ A BURGUERMANIA API é uma aplicação para gerenciar pedidos e produtos de uma h
 ## 🤝 Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
-
-## 📜 Licença
-
-Este projeto está licenciado sob a licença MIT.
