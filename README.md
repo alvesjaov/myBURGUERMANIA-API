@@ -1,16 +1,15 @@
-# BURGUERMANIA API
-
-## Descrição
+# 🍔 Burguer Mania API
 
 A BURGUERMANIA API é uma aplicação para gerenciar pedidos e produtos de uma hamburgueria. Esta API permite criar, ler, atualizar e deletar informações sobre os produtos e pedidos.
 
-## Tecnologias Utilizadas
+
+## 🛠️ Tecnologias Utilizadas
 
 - .NET
 - ASP.NET Core
 - MySQL
 
-## Como Executar
+## 🚀 Como Executar
 
 1. Clone o repositório:
 
@@ -30,16 +29,22 @@ A BURGUERMANIA API é uma aplicação para gerenciar pedidos e produtos de uma h
     dotnet restore
     ```
 
-4. Inicie o servidor:
+4. Atualize o banco de dados:
+
+    ```bash
+    dotnet ef database update
+    ```
+
+5. Inicie o servidor:
 
     ```bash
     dotnet run
     ```
 
-## Contribuição
+## 🤝 Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
 
-## Licença
+## 📜 Licença
 
 Este projeto está licenciado sob a licença MIT.
