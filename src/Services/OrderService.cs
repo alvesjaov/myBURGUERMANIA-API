@@ -63,6 +63,10 @@ namespace myBURGUERMANIA_API.Services
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
 
+            // Adicionar pedido ao histórico do usuário
+            var userService = new UserService(_context);
+            userService.AddOrderToUserHistory(dto.UserId, newOrder);
+
             return new OrderDto
             {
                 Id = newOrder.Id,

@@ -64,7 +64,7 @@ namespace myBURGUERMANIA_API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]
         public IActionResult GetUser(string id)
         {
             try

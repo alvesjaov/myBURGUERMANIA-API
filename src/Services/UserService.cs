@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using myBURGUERMANIA_API.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace myBURGUERMANIA_API.Services
 {
@@ -52,16 +53,30 @@ namespace myBURGUERMANIA_API.Services
                 CPF = createUserDTO.CPF,
                 BirthDate = createUserDTO.BirthDate,
                 PhoneNumber = createUserDTO.PhoneNumber,
-                Password = PasswordHelper.HashPassword(createUserDTO.Password) // Criptografar senha
+                Password = PasswordHelper.HashPassword(createUserDTO.Password), // Criptografar senha
+                OrderHistory = new List<Order>() // Inicializar histórico de pedidos
             };
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;
         }
 
+        public void AddOrderToUserHistory(string userId, Order order)
+        {
+            var user = _context.Users.Find(userId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException(UserNotFound);
+            }
+            user.OrderHistory.Add(order);
+            _context.SaveChanges();
+        }
+
         public User? GetUser(string id)
         {
-            var user = _context.Users.Find(id);
+            var user = _context.Users
+                .Include(u => u.OrderHistory) // Incluir histórico de pedidos
+                .FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 throw new KeyNotFoundException(UserNotFound);

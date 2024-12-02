@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace myBURGUERMANIA_API.Models
 {
@@ -16,6 +17,10 @@ namespace myBURGUERMANIA_API.Models
         public required string Status { get; set; } = string.Empty; // Inicializar com valor padrão
         [Required]
         public decimal TotalValue { get; set; }
+
+        [ForeignKey("UserId")]
+        [JsonIgnore] // Ignorar a propriedade User na serialização JSON
+        public User User { get; set; } 
     }
 
 }

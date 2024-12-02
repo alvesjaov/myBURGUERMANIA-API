@@ -34,5 +34,7 @@ namespace myBURGUERMANIA_API.Models
         [Required]
         [MinLength(6)]
         public string Password { get; set; } = string.Empty; // Novo campo de senha
+        
+        public List<Order> OrderHistory { get; set; } = new List<Order>(); // Novo campo para histórico de pedidos
     }
 }
