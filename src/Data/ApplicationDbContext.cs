@@ -139,6 +139,12 @@ namespace myBURGUERMANIA_API.Data
                     .WithOne(p => p.Category)
                     .HasForeignKey(p => p.CategoryId);
             });
+
+            // Configurar relação entre User e Order
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.OrderHistory)
+                .WithOne(o => o.User)
+                .HasForeignKey(o => o.UserId);
         }
     }
 
