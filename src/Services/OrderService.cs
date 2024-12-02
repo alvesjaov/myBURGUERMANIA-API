@@ -9,24 +9,14 @@ namespace myBURGUERMANIA_API.Services
     public class OrderService
     {
         private readonly ApplicationDbContext _context;
+        private readonly StatusService _statusService;
         private const string UserNotFound = "Usuário não encontrado.";
         private const string ProductNotFound = "Pedido não encontrado.";
 
         public OrderService(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        private static string GetStatusName(int status)
-        {
-            return status switch
-            {
-                1 => "Pendente",
-                2 => "Em Preparação",
-                3 => "Pronto para Entrega",
-                4 => "Entregue",
-                _ => throw new ArgumentException("Status inválido.")
-            };
+            _statusService = new StatusService(context);
         }
 
         private decimal CalculateTotalValue(List<string> productIds)
@@ -52,12 +42,13 @@ namespace myBURGUERMANIA_API.Services
                 throw new InvalidOperationException(UserNotFound); // Lançar exceção se o usuário não for encontrado
             }
 
+            var status = _statusService.GetStatusById(dto.StatusId); // Obter status pelo ID
             var newOrder = new Order
             {
-                Id = IdHelper.GenerateRandomId(), // Gerar ID automaticamente
+                Id = IdHelper.GenerateRandomId(), // Usar o helper para gerar ID aleatório
                 UserId = dto.UserId,
                 ProductIds = dto.ProductIds,
-                Status = GetStatusName(dto.Status), // Converter status para string
+                StatusId = status.Id, // Atribuir ID do status
                 TotalValue = CalculateTotalValue(dto.ProductIds) // Calcular valor total
             };
             _context.Orders.Add(newOrder);
@@ -72,7 +63,8 @@ namespace myBURGUERMANIA_API.Services
                 Id = newOrder.Id,
                 UserId = newOrder.UserId,
                 ProductIds = newOrder.ProductIds,
-                Status = newOrder.Status,
+                StatusId = newOrder.StatusId,
+                StatusName = status.Name, // Atribuir nome do status
                 TotalValue = newOrder.TotalValue,
                 UserName = user.Name,
                 UserCPF = user.CPF,
@@ -99,7 +91,8 @@ namespace myBURGUERMANIA_API.Services
                 Id = order.Id,
                 UserId = order.UserId,
                 ProductIds = order.ProductIds,
-                Status = order.Status,
+                StatusId = order.StatusId,
+                StatusName = _statusService.GetStatusById(order.StatusId).Name, // Atribuir nome do status
                 TotalValue = order.TotalValue,
                 UserName = user.Name,
                 UserCPF = user.CPF,
@@ -107,7 +100,7 @@ namespace myBURGUERMANIA_API.Services
             };
         }
 
-        public OrderDto UpdateStatus(string id, int status)
+        public OrderDto UpdateStatus(string id, string statusId)
         {
             var order = _context.Orders.Find(id);
             if (order == null)
@@ -115,7 +108,8 @@ namespace myBURGUERMANIA_API.Services
                 throw new KeyNotFoundException(ProductNotFound);
             }
 
-            order.Status = GetStatusName(status); // Converter status para string
+            var status = _statusService.GetStatusById(statusId); // Obter status pelo ID
+            order.StatusId = status.Id; // Atualizar ID do status
             _context.SaveChanges();
 
             var user = _context.Users.Find(order.UserId);
@@ -129,7 +123,8 @@ namespace myBURGUERMANIA_API.Services
                 Id = order.Id,
                 UserId = order.UserId,
                 ProductIds = order.ProductIds,
-                Status = order.Status,
+                StatusId = order.StatusId,
+                StatusName = status.Name, // Atribuir nome do status
                 TotalValue = order.TotalValue,
                 UserName = user.Name,
                 UserCPF = user.CPF,
@@ -145,7 +140,13 @@ namespace myBURGUERMANIA_API.Services
                 throw new KeyNotFoundException(ProductNotFound);
             }
 
-            order.Status = "Cancelado"; // Marcar o pedido como cancelado
+            var status = _context.Statuses.FirstOrDefault(s => s.Name == "Cancelado");
+            if (status == null)
+            {
+                throw new ArgumentException("Status 'Cancelado' não encontrado.");
+            }
+
+            order.StatusId = status.Id; // Atualizar ID do status para 'Cancelado'
             _context.SaveChanges();
 
             var user = _context.Users.Find(order.UserId);
@@ -159,7 +160,8 @@ namespace myBURGUERMANIA_API.Services
                 Id = order.Id,
                 UserId = order.UserId,
                 ProductIds = order.ProductIds,
-                Status = order.Status,
+                StatusId = order.StatusId,
+                StatusName = status.Name, // Atribuir nome do status
                 TotalValue = order.TotalValue,
                 UserName = user.Name,
                 UserCPF = user.CPF,

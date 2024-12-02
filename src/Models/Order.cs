@@ -14,13 +14,15 @@ namespace myBURGUERMANIA_API.Models
         [Required]
         public required List<string> ProductIds { get; set; } // Alterar para List<string>
         [Required]
-        public required string Status { get; set; } = string.Empty; // Inicializar com valor padrão
+        public required string StatusId { get; set; } // Adicionar chave estrangeira para Status
+        [ForeignKey("StatusId")]
+        public Status Status { get; set; } // Adicionar navegação para Status
         [Required]
         public decimal TotalValue { get; set; }
 
         [ForeignKey("UserId")]
         [JsonIgnore] // Ignorar a propriedade User na serialização JSON
-        public User User { get; set; } 
+        public User User { get; set; }
     }
 
 }

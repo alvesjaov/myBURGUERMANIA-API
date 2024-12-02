@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using myBURGUERMANIA_API.DTOs;
 using myBURGUERMANIA_API.Services;
 using myBURGUERMANIA_API.Models;
+using myBURGUERMANIA_API.DTOs.Status;
 using myBURGUERMANIA_API.DTOs.Order;
 
 namespace myBURGUERMANIA_API.Controllers
@@ -48,11 +49,6 @@ namespace myBURGUERMANIA_API.Controllers
             return Ok(order);
         }
 
-        public class UpdateStatusDto
-        {
-            public int Status { get; set; }
-        }
-
         [HttpPatch("{id}")]
         [ProducesResponseType(typeof(OrderDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(OrderDto), StatusCodes.Status400BadRequest)]
@@ -63,7 +59,7 @@ namespace myBURGUERMANIA_API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var order = _orderService.UpdateStatus(id, updateStatusDto.Status);
+            var order = _orderService.UpdateStatus(id, updateStatusDto.StatusId); // Passar StatusId
             if (order == null)
             {
                 return NotFound(new { mensagem = "Pedido não encontrado" });
