@@ -5,6 +5,7 @@ using myBURGUERMANIA_API.DTOs.Product;
 using myBURGUERMANIA_API.DTOs.Category;
 using myBURGUERMANIA_API.Data;
 using myBURGUERMANIA_API.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace myBURGUERMANIA_API.Services
 {
@@ -20,24 +21,34 @@ namespace myBURGUERMANIA_API.Services
 
         public IEnumerable<ProductDto> GetAll()
         {
-            return _context.Products.Select(p => new ProductDto(p));
+            return _context.Products.Include(p => p.Category).Select(p => new ProductDto(p)
+            {
+                CategoryName = p.Category.Name // Adicionar o nome da categoria
+            });
         }
 
         public ProductDto? GetById(string id)
         {
-            var product = _context.Products.Find(id);
+            var product = _context.Products.Include(p => p.Category).FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 throw new KeyNotFoundException(ProductNotFound);
             }
-            return new ProductDto(product);
+            return new ProductDto(product)
+            {
+                CategoryName = product.Category.Name // Adicionar o nome da categoria
+            };
         }
 
         public IEnumerable<ProductDto> GetByCategory(string categoryId)
         {
             return _context.Products
+                .Include(p => p.Category)
                 .Where(p => p.CategoryId == categoryId) // Comparar o ID da categoria
-                .Select(p => new ProductDto(p));
+                .Select(p => new ProductDto(p)
+                {
+                    CategoryName = p.Category.Name // Adicionar o nome da categoria
+                });
         }
 
         public ProductDto Create(CreateProductDto dto)
@@ -63,7 +74,10 @@ namespace myBURGUERMANIA_API.Services
             };
             _context.Products.Add(newProduct);
             _context.SaveChanges();
-            return new ProductDto(newProduct); // Retornar o ProductDto
+            return new ProductDto(newProduct)
+            {
+                CategoryName = newProduct.Category.Name // Adicionar o nome da categoria
+            };
         }
 
         public void Update(string id, UpdateProductDto dto)

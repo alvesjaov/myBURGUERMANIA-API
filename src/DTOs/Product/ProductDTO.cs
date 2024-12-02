@@ -13,6 +13,7 @@ namespace myBURGUERMANIA_API.DTOs.Product
             Description = product.Description;
             Image = product.Image;
             CategoryId = product.CategoryId; // Armazenar apenas o ID da categoria
+            CategoryName = product.Category.Name; // Adicionar o nome da categoria
         }
 
         public string Id { get; set; } // Alterado para string
@@ -21,5 +22,6 @@ namespace myBURGUERMANIA_API.DTOs.Product
         public string Description { get; set; }
         public string Image { get; set; }
         public string CategoryId { get; set; } // Armazenar apenas o ID da categoria
+        public string CategoryName { get; set; } // Adicionar a propriedade CategoryName
     }
 }
