@@ -15,6 +15,8 @@ namespace myBURGUERMANIA_API.Data
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!; // Adicionar DbSet para Orders
         public DbSet<Category> Categories { get; set; } = null!; // Adicionar DbSet para Categories
+        public DbSet<Status> Statuses { get; set; } = null!; // Adicionar DbSet para Statuses
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -105,9 +107,14 @@ namespace myBURGUERMANIA_API.Data
                     .IsRequired()
                     .HasColumnType("varchar(36)");
 
-                entity.Property(e => e.Status)
+                entity.Property(e => e.StatusId)
+                    .HasMaxLength(36)
                     .IsRequired()
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(36)");
+
+                entity.HasOne(e => e.Status)
+                    .WithMany()
+                    .HasForeignKey(e => e.StatusId);
 
                 entity.Property(e => e.TotalValue)
                     .IsRequired()
@@ -138,6 +145,20 @@ namespace myBURGUERMANIA_API.Data
                 entity.HasMany(c => c.Products) // Adicionado para incluir a relação com produtos
                     .WithOne(p => p.Category)
                     .HasForeignKey(p => p.CategoryId);
+            });
+
+            modelBuilder.Entity<Status>(entity =>
+            {
+                entity.HasKey(e => e.Id); // Definindo Id como chave primária
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36) // Definir comprimento máximo
+                    .IsRequired()
+                    .HasColumnType("varchar(36)"); // Configurando como string
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsRequired()
+                    .HasColumnType("varchar(50)");
             });
 
             // Configurar relação entre User e Order

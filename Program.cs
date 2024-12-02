@@ -25,6 +25,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>(); // Alterado para Scoped
 builder.Services.AddScoped<OrderService>(); 
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<StatusService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
