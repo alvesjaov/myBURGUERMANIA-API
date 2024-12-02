@@ -41,12 +41,23 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(typeof(OrderDto), StatusCodes.Status404NotFound)]
         public IActionResult GetById(string id)
         {
-            var order = _orderService.GetById(id);
-            if (order == null)
+            try
             {
-                return NotFound(new { mensagem = "Pedido não encontrado" });
+                var order = _orderService.GetById(id);
+                if (order == null)
+                {
+                    return NotFound(new { mensagem = "Pedido não encontrado" });
+                }
+                return Ok(order);
             }
-            return Ok(order);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { mensagem = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensagem = ex.Message });
+            }
         }
 
         [HttpPatch("{id}")]
@@ -59,12 +70,23 @@ namespace myBURGUERMANIA_API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var order = _orderService.UpdateStatus(id, updateStatusDto.StatusId); // Passar StatusId
-            if (order == null)
+            try
             {
-                return NotFound(new { mensagem = "Pedido não encontrado" });
+                var order = _orderService.UpdateStatus(id, updateStatusDto.StatusId); // Passar StatusId
+                if (order == null)
+                {
+                    return NotFound(new { mensagem = "Pedido não encontrado" });
+                }
+                return Ok(order);
             }
-            return Ok(order);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { mensagem = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensagem = ex.Message });
+            }
         }
 
         [HttpPatch("{id}/cancel")]
@@ -72,12 +94,23 @@ namespace myBURGUERMANIA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Cancel(string id)
         {
-            var order = _orderService.Cancel(id);
-            if (order == null)
+            try
             {
-                return NotFound(new { mensagem = "Pedido não encontrado" });
+                var order = _orderService.Cancel(id);
+                if (order == null)
+                {
+                    return NotFound(new { mensagem = "Pedido não encontrado" });
+                }
+                return Ok(order);
             }
-            return Ok(order);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { mensagem = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensagem = ex.Message });
+            }
         }
 
     }

@@ -77,7 +77,7 @@ namespace myBURGUERMANIA_API.Services
             var order = _context.Orders.Find(id);
             if (order == null)
             {
-                throw new KeyNotFoundException(ProductNotFound);
+                throw new KeyNotFoundException(ProductNotFound); // Lançar exceção se o pedido não for encontrado
             }
 
             var user = _context.Users.Find(order.UserId);
@@ -105,7 +105,7 @@ namespace myBURGUERMANIA_API.Services
             var order = _context.Orders.Find(id);
             if (order == null)
             {
-                throw new KeyNotFoundException(ProductNotFound);
+                throw new KeyNotFoundException(ProductNotFound); // Lançar exceção se o pedido não for encontrado
             }
 
             var status = _statusService.GetStatusById(statusId); // Obter status pelo ID
@@ -137,7 +137,7 @@ namespace myBURGUERMANIA_API.Services
             var order = _context.Orders.Find(id);
             if (order == null)
             {
-                throw new KeyNotFoundException(ProductNotFound);
+                throw new KeyNotFoundException(ProductNotFound); // Lançar exceção se o pedido não for encontrado
             }
 
             var status = _context.Statuses.FirstOrDefault(s => s.Name == "Cancelado");
