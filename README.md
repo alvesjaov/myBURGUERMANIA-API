@@ -10,6 +10,8 @@ A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma 
 
 ## 🚀 Como Executar
 
+### Sem Docker
+
 1. Clone o repositório:
 
   ```bash
@@ -27,42 +29,65 @@ A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma 
   ```json
   {
     "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=burguer_mania;User Id=root;Password=yourpassword;"
+      "DefaultConnection": "Server=localhost;Database=burguer_mania;User Id=root;Password=yourpassword;"
     },
     "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+      }
     },
     "AllowedHosts": "*"
   }
   ```
 
 4. Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`:
+
   ```sh
   cp .env.example .env
   ```
 
 5. Atualize as variáveis de ambiente no arquivo `.env` com suas próprias configurações.
 
-6. Restaure as dependências:
-
-  ```bash
-  dotnet restore
-  ```
-
-7. Atualize o banco de dados:
-
-  ```bash
-  dotnet ef database update
-  ```
-  
-8. Inicie o servidor:
+6. Execute a aplicação:
 
   ```bash
   dotnet run
+  ```
+
+### Com Docker
+
+1. Clone o repositório:
+
+  ```bash
+  git clone https://github.com/seu-usuario/myBURGUERMANIA-API.git
+  ```
+
+2. Navegue até o diretório do projeto:
+
+  ```bash
+  cd myBURGUERMANIA-API
+  ```
+
+3. Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`:
+
+  ```sh
+  cp .env.example .env
+  ```
+
+4. Atualize as variáveis de ambiente no arquivo `.env` com suas próprias configurações.
+
+5. Construa a imagem Docker:
+
+  ```bash
+  docker-compose build
+  ```
+
+6. Inicie o contêiner Docker:
+
+  ```bash
+  docker-compose up
   ```
 
 ## 📚 Rotas da API
