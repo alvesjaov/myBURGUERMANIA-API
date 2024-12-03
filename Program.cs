@@ -36,6 +36,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await dbContext.Database.MigrateAsync();
+    SeedData.Initialize(scope.ServiceProvider); 
 }
 
 // Configure the HTTP request pipeline.
@@ -52,5 +53,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Alterar a porta para evitar conflito
+app.Urls.Add("http://localhost:8080");
 
 await app.RunAsync();
