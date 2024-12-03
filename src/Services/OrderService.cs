@@ -19,9 +19,9 @@ namespace myBURGUERMANIA_API.Services
             _statusService = new StatusService(context);
         }
 
-        private decimal CalculateTotalValue(List<string> productIds)
+        public static decimal CalculateTotalValue(ApplicationDbContext context, List<string> productIds)
         {
-            var products = _context.Products.Where(p => productIds.Contains(p.Id)).ToList();
+            var products = context.Products.Where(p => productIds.Contains(p.Id)).ToList();
             decimal totalValue = 0;
             foreach (var productId in productIds)
             {
@@ -49,7 +49,7 @@ namespace myBURGUERMANIA_API.Services
                 UserId = dto.UserId,
                 ProductIds = dto.ProductIds,
                 StatusId = status.Id, // Atribuir ID do status
-                TotalValue = CalculateTotalValue(dto.ProductIds) // Calcular valor total
+                TotalValue = CalculateTotalValue(_context, dto.ProductIds) // Calcular valor total
             };
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
