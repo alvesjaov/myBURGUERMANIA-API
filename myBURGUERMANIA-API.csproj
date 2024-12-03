@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>myBURGUERMANIA_API</RootNamespace>
+    <AssemblyName>myBURGUERMANIA-API</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

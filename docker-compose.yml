@@ -1,0 +1,11 @@
+services:
+  app:
+    image: seu-projeto:dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=${DB_SERVER};Database=${DB_DATABASE};User Id=${DB_USER};Password=${DB_PASSWORD};Port=${DB_PORT};
