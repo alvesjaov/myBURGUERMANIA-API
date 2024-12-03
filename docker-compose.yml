@@ -1,6 +1,6 @@
 services:
   app:
-    image: seu-projeto:dev
+    image: projeto-myburguermania:dev
     build:
       context: .
       dockerfile: Dockerfile
