@@ -40,19 +40,26 @@ A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma 
     }
     ```
 
-4. Restaure as dependências:
+4. Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`:
+    ```sh
+    cp .env.example .env
+    ```
+
+5. Atualize as variáveis de ambiente no arquivo `.env` com suas próprias configurações.
+
+6. Restaure as dependências:
 
     ```bash
     dotnet restore
     ```
 
-5. Atualize o banco de dados:
+7. Atualize o banco de dados:
 
     ```bash
     dotnet ef database update
     ```
 
-6. Inicie o servidor:
+8. Inicie o servidor:
 
     ```bash
     dotnet run
