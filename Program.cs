@@ -13,7 +13,11 @@ if (string.IsNullOrEmpty(connectionString))
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySQL(connectionString)); // UseMySQL ao invés de UseMySql
+    options.UseMySQL(connectionString, mysqlOptions =>
+    {
+        mysqlOptions.EnableRetryOnFailure();
+        mysqlOptions.CommandTimeout(60); // Ajuste o tempo limite de conexão para 60 segundos
+    })); // UseMySQL ao invés de UseMySql
 
 // Adicionando configuração para ignorar referências circulares
 builder.Services.AddControllers().AddJsonOptions(options =>
