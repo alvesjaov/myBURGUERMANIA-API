@@ -3,13 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace myBURGUERMANIA_API.Models
 {
-    public enum ProductCategory
-    {
-        Hamburguer = 1,
-        Porcao = 2,
-        Bebida = 3
-    }
-
     public class Product
     {
         [Key]
