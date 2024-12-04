@@ -1,12 +1,26 @@
 # 🍔 Burguer Mania API
-
 A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma hamburgueria. Esta API permite criar, ler, atualizar e deletar informações sobre os produtos e pedidos.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- .NET
+- .NET 8.0
 - ASP.NET Core
 - MySQL
+- Entity Framework Core
+- AutoMapper
+- Swashbuckle (Swagger)
+- Docker
+- Docker Compose
+- DotNetEnv
+
+## 📋 Pré-requisitos
+
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
+
+- [.NET SDK 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [MySQL](https://dev.mysql.com/downloads/mysql/)
 
 ## 🚀 Como Executar
 
@@ -89,6 +103,12 @@ A Burguer Mania API é uma aplicação para gerenciar pedidos e produtos de uma 
   ```bash
   docker-compose up
   ```
+
+## 🌐 Acessando a API
+
+Localmente, a API pode ser acessada em [http://localhost:8080](http://localhost:8080).
+
+Online, a API pode ser acessada em [https://myburguermania-api.onrender.com](https://myburguermania-api.onrender.com).
 
 ## 📚 Rotas da API
 
