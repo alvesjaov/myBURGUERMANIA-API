@@ -1,6 +1,7 @@
 using myBURGUERMANIA_API.Models;
 using myBURGUERMANIA_API.Data;
 using myBURGUERMANIA_API.Helpers; // Add this line to import the IdHelper class
+using myBURGUERMANIA_API.DTOs.SelectedProducts; // Adicionar importação para DTO
 
 namespace myBURGUERMANIA_API.Services
 {
@@ -13,7 +14,7 @@ namespace myBURGUERMANIA_API.Services
             _context = context;
         }
 
-        public SelectedProducts Create(List<string> productIds)
+        public SelectedProductsDto Create(List<string> productIds)
         {
             try
             {
@@ -24,16 +25,24 @@ namespace myBURGUERMANIA_API.Services
                 };
                 _context.SelectedProducts.Add(selectedProducts);
                 _context.SaveChanges();
-                return selectedProducts;
+
+                var products = _context.Products.Where(p => productIds.Contains(p.Id)).ToList();
+
+                return new SelectedProductsDto
+                {
+                    Id = selectedProducts.Id,
+                    ProductIds = selectedProducts.ProductIds,
+                    ProductNames = products.Select(p => p.Title).ToList(),
+                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                };
             }
             catch (Exception ex)
             {
-
                 throw new InvalidOperationException("Ocorreu um erro ao criar os produtos selecionados.", ex);
             }
         }
 
-        public SelectedProducts GetById(string id)
+        public SelectedProductsDto GetById(string id)
         {
             try
             {
@@ -42,7 +51,16 @@ namespace myBURGUERMANIA_API.Services
                 {
                     throw new KeyNotFoundException("Produtos selecionados não encontrados.");
                 }
-                return selectedProducts;
+
+                var products = _context.Products.Where(p => selectedProducts.ProductIds.Contains(p.Id)).ToList();
+
+                return new SelectedProductsDto
+                {
+                    Id = selectedProducts.Id,
+                    ProductIds = selectedProducts.ProductIds,
+                    ProductNames = products.Select(p => p.Title).ToList(),
+                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                };
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using myBURGUERMANIA_API.Services;
 using myBURGUERMANIA_API.Models;
+using myBURGUERMANIA_API.DTOs.SelectedProducts; // Adicionar importação para DTO
 
 namespace myBURGUERMANIA_API.Controllers
 {
@@ -16,8 +17,8 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(SelectedProducts), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(SelectedProducts), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status400BadRequest)]
         public IActionResult Create([FromBody] List<string> productIds)
         {
             try
@@ -46,9 +47,9 @@ namespace myBURGUERMANIA_API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(SelectedProducts), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(SelectedProducts), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(SelectedProducts), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status404NotFound)]
         public IActionResult GetById(string id)
         {
             try
