@@ -1,34 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using myBURGUERMANIA_API.Data;
 using myBURGUERMANIA_API.Services;
+using myBURGUERMANIA_API.Configurations;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Adicione o serviço CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200" , "https://my-burguermania.vercel.app/") // Substitua pela URL do frontend
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
+builder.Services.AddCorsConfiguration();
 
 // Alteração para MySQL
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-if (string.IsNullOrEmpty(connectionString))
-{
-    throw new InvalidOperationException("Connection string 'DefaultConnection' is not found.");
-}
+builder.Services.AddDatabaseConfiguration(builder.Configuration);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySQL(connectionString, mysqlOptions =>
-    {
-        mysqlOptions.EnableRetryOnFailure();
-        mysqlOptions.CommandTimeout(60); // Ajuste o tempo limite de conexão para 60 segundos
-    })); // UseMySQL ao invés de UseMySql
+// Adicione os serviços
+builder.Services.AddServiceConfiguration();
 
 // Adicionando configuração para ignorar referências circulares
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -36,12 +21,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ProductService>(); // Alterado para Scoped
-builder.Services.AddScoped<OrderService>(); 
-builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<StatusService>();
-builder.Services.AddScoped<LoginService>(); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -57,6 +36,12 @@ using (var scope = app.Services.CreateScope())
 
 // Use o middleware CORS
 app.UseCors("AllowSpecificOrigin");
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("Access-Control-Allow-Origin", "https://my-burguermania.vercel.app");
+    await next.Invoke();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
