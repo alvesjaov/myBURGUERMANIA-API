@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configurando o logging
+builder.Services.AddLoggingConfiguration();
+
 // Adicione o serviço CORS
 builder.Services.AddCorsConfiguration();
 
@@ -26,7 +29,10 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Adiciona esta linha para aplicar as migrações automaticamente
+// Middleware para log de requisições
+app.UseRequestLogging();
+
+// Aplicar as migrações automaticamente
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
