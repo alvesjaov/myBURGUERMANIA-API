@@ -59,6 +59,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Alterar a porta para evitar conflito
-app.Urls.Add("http://localhost:8080");
+app.Urls.Add("http://*:8080");
 
 await app.RunAsync();
