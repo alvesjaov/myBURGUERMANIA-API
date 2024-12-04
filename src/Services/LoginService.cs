@@ -27,7 +27,32 @@ namespace myBURGUERMANIA_API.Services
             {
                 return null;
             }
+
+            // Verificar se o login já existe
+            var existingLogin = _context.Logins.FirstOrDefault(l => l.Email == loginDto.Email);
+            if (existingLogin == null)
+            {
+                // Salvar login no banco de dados
+                var login = new Login
+                {
+                    Email = loginDto.Email,
+                    Password = PasswordHelper.HashPassword(loginDto.Password)
+                };
+                _context.Logins.Add(login);
+                _context.SaveChanges();
+            }
+
             return user;
+        }
+
+        public void Logout(string email)
+        {
+            var login = _context.Logins.FirstOrDefault(l => l.Email == email);
+            if (login != null)
+            {
+                _context.Logins.Remove(login);
+                _context.SaveChanges();
+            }
         }
     }
 }

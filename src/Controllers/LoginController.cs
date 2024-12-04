@@ -28,5 +28,13 @@ namespace myBURGUERMANIA_API.Controllers
             }
             return Ok(user);
         }
+
+        [HttpDelete]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        public IActionResult Logout([FromBody] LoginDto loginDto)
+        {
+            _loginService.Logout(loginDto.Email);
+            return Ok(new { mensagem = "Logout realizado com sucesso." });
+        }
     }
 }
