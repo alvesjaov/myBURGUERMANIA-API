@@ -14,6 +14,7 @@ namespace myBURGUERMANIA_API.Configurations
             services.AddScoped<CategoryService>();
             services.AddScoped<StatusService>();
             services.AddScoped<LoginService>(); 
+            services.AddScoped<SelectedProductsService>(); 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 

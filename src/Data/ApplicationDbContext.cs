@@ -17,6 +17,7 @@ namespace myBURGUERMANIA_API.Data
         public DbSet<Category> Categories { get; set; } = null!; // Adicionar DbSet para Categories
         public DbSet<Status> Statuses { get; set; } = null!; // Adicionar DbSet para Statuses
         public DbSet<Login> Logins { get; set; } = null!; // Adicionar DbSet para Login
+        public DbSet<SelectedProducts> SelectedProducts { get; set; } = null!; // Adicionar DbSet para SelectedProducts
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -121,13 +122,14 @@ namespace myBURGUERMANIA_API.Data
                     .IsRequired()
                     .HasColumnType("decimal(18,2)");
 
-                entity.Property(e => e.ProductIds)
+                entity.Property(e => e.SelectedProductsId)
+                    .HasMaxLength(36)
                     .IsRequired()
-                    .HasConversion(
-                        v => string.Join(',', v),
-                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
-                    )
-                    .HasColumnType("varchar(255)");
+                    .HasColumnType("varchar(36)");
+
+                entity.HasOne(e => e.SelectedProducts)
+                    .WithMany()
+                    .HasForeignKey(e => e.SelectedProductsId);
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -172,6 +174,23 @@ namespace myBURGUERMANIA_API.Data
 
                 entity.Property(e => e.Password)
                     .IsRequired()
+                    .HasColumnType("varchar(255)");
+            });
+
+            modelBuilder.Entity<SelectedProducts>(entity =>
+            {
+                entity.HasKey(e => e.Id); // Definindo Id como chave primária
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36) // Definir comprimento máximo
+                    .IsRequired()
+                    .HasColumnType("varchar(36)"); // Configurando como string
+
+                entity.Property(e => e.ProductIds)
+                    .IsRequired()
+                    .HasConversion(
+                        v => string.Join(',', v),
+                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
+                    )
                     .HasColumnType("varchar(255)");
             });
 
