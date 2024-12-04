@@ -192,30 +192,41 @@ namespace myBURGUERMANIA_API.Data
                 context.SaveChanges();
             }
 
-            // Adicionar pedidos
-            var statusPendente = context.Statuses.FirstOrDefault(s => s.Name == "Pendente");
-            var userAdmin = context.Users.FirstOrDefault(u => u.Email == "admin@myburguer.com");
-            if (statusPendente != null && userAdmin != null && !context.Orders.Any())
+            // Adicionar SelectedProducts
+            if (!context.SelectedProducts.Any())
             {
                 var product1 = context.Products.FirstOrDefault(p => p.Title == "Hambúrguer Vegano");
                 var product2 = context.Products.FirstOrDefault(p => p.Title == "Hambúrguer de Frango");
 
                 if (product1 != null && product2 != null)
                 {
-                    var productIds = new List<string> { product1.Id, product2.Id };
-                    var totalValue = OrderService.CalculateTotalValue(context, productIds); // Usar o serviço para calcular o valor total
-
-                    context.Orders.AddRange(
-                        new Order
-                        {
-                            Id = IdHelper.GenerateRandomId(),
-                            UserId = userAdmin.Id,
-                            StatusId = statusPendente.Id,
-                            ProductIds = productIds,
-                            TotalValue = totalValue
-                        }
-                    );
+                    var selectedProducts = new SelectedProducts
+                    {
+                        Id = IdHelper.GenerateRandomId(),
+                        ProductIds = new List<string> { product1.Id, product2.Id }
+                    };
+                    context.SelectedProducts.Add(selectedProducts);
                     context.SaveChanges();
+
+                    // Adicionar pedidos
+                    var statusPendente = context.Statuses.FirstOrDefault(s => s.Name == "Pendente");
+                    var userAdmin = context.Users.FirstOrDefault(u => u.Email == "admin@myburguer.com");
+                    if (statusPendente != null && userAdmin != null && !context.Orders.Any())
+                    {
+                        var totalValue = OrderService.CalculateTotalValue(context, selectedProducts.ProductIds);
+
+                        context.Orders.AddRange(
+                            new Order
+                            {
+                                Id = IdHelper.GenerateRandomId(),
+                                UserId = userAdmin.Id,
+                                StatusId = statusPendente.Id,
+                                SelectedProductsId = selectedProducts.Id,
+                                TotalValue = totalValue
+                            }
+                        );
+                        context.SaveChanges();
+                    }
                 }
             }
         }
