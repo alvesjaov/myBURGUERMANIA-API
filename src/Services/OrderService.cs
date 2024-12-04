@@ -54,6 +54,8 @@ namespace myBURGUERMANIA_API.Services
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
 
+            var products = _context.Products.Where(p => dto.ProductIds.Contains(p.Id)).ToList();
+
             // Adicionar pedido ao histórico do usuário
             var userService = new UserService(_context);
             userService.AddOrderToUserHistory(dto.UserId, newOrder);
@@ -63,6 +65,8 @@ namespace myBURGUERMANIA_API.Services
                 Id = newOrder.Id,
                 UserId = newOrder.UserId,
                 ProductIds = newOrder.ProductIds,
+                ProductNames = products.Select(p => p.Title).ToList(),
+                ProductImageUrls = products.Select(p => p.Image).ToList(),
                 StatusId = newOrder.StatusId,
                 StatusName = status.Name, // Atribuir nome do status
                 TotalValue = newOrder.TotalValue,
@@ -86,11 +90,15 @@ namespace myBURGUERMANIA_API.Services
                 throw new InvalidOperationException(UserNotFound);
             }
 
+            var products = _context.Products.Where(p => order.ProductIds.Contains(p.Id)).ToList();
+
             return new OrderDto
             {
                 Id = order.Id,
                 UserId = order.UserId,
                 ProductIds = order.ProductIds,
+                ProductNames = products.Select(p => p.Title).ToList(),
+                ProductImageUrls = products.Select(p => p.Image).ToList(),
                 StatusId = order.StatusId,
                 StatusName = _statusService.GetStatusById(order.StatusId).Name, // Atribuir nome do status
                 TotalValue = order.TotalValue,
@@ -118,11 +126,15 @@ namespace myBURGUERMANIA_API.Services
                 throw new InvalidOperationException(UserNotFound);
             }
 
+            var products = _context.Products.Where(p => order.ProductIds.Contains(p.Id)).ToList();
+
             return new OrderDto
             {
                 Id = order.Id,
                 UserId = order.UserId,
                 ProductIds = order.ProductIds,
+                ProductNames = products.Select(p => p.Title).ToList(),
+                ProductImageUrls = products.Select(p => p.Image).ToList(),
                 StatusId = order.StatusId,
                 StatusName = status.Name, // Atribuir nome do status
                 TotalValue = order.TotalValue,
@@ -155,11 +167,15 @@ namespace myBURGUERMANIA_API.Services
                 throw new InvalidOperationException(UserNotFound);
             }
 
+            var products = _context.Products.Where(p => order.ProductIds.Contains(p.Id)).ToList();
+
             return new OrderDto
             {
                 Id = order.Id,
                 UserId = order.UserId,
                 ProductIds = order.ProductIds,
+                ProductNames = products.Select(p => p.Title).ToList(),
+                ProductImageUrls = products.Select(p => p.Image).ToList(),
                 StatusId = order.StatusId,
                 StatusName = status.Name, // Atribuir nome do status
                 TotalValue = order.TotalValue,
