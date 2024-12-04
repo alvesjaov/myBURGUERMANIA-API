@@ -12,11 +12,13 @@ namespace myBURGUERMANIA_API.Models
         [Required]
         public required string UserId { get; set; }
         [Required]
-        public required List<string> ProductIds { get; set; } // Alterar para List<string>
-        [Required]
         public required string StatusId { get; set; } // Adicionar chave estrangeira para Status
         [ForeignKey("StatusId")]
         public Status Status { get; set; } // Adicionar navegação para Status
+        [Required]
+        public required string SelectedProductsId { get; set; } // Adicionar referência para SelectedProducts
+        [ForeignKey("SelectedProductsId")]
+        public SelectedProducts SelectedProducts { get; set; } // Adicionar navegação para SelectedProducts
         [Required]
         public decimal TotalValue { get; set; }
 
@@ -24,6 +26,5 @@ namespace myBURGUERMANIA_API.Models
         [JsonIgnore] // Ignorar a propriedade User na serialização JSON
         public User User { get; set; }
     }
-
 }
 
