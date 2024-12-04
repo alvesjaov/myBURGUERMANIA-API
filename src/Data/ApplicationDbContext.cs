@@ -16,6 +16,7 @@ namespace myBURGUERMANIA_API.Data
         public DbSet<Order> Orders { get; set; } = null!; // Adicionar DbSet para Orders
         public DbSet<Category> Categories { get; set; } = null!; // Adicionar DbSet para Categories
         public DbSet<Status> Statuses { get; set; } = null!; // Adicionar DbSet para Statuses
+        public DbSet<Login> Logins { get; set; } = null!; // Adicionar DbSet para Login
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -159,6 +160,19 @@ namespace myBURGUERMANIA_API.Data
                     .HasMaxLength(50)
                     .IsRequired()
                     .HasColumnType("varchar(50)");
+            });
+
+            modelBuilder.Entity<Login>(entity =>
+            {
+                entity.HasKey(e => e.Email);
+                entity.Property(e => e.Email)
+                    .HasMaxLength(60)
+                    .IsRequired()
+                    .HasColumnType("varchar(60)");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasColumnType("varchar(255)");
             });
 
             // Configurar relação entre User e Order
