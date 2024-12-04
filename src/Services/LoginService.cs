@@ -36,7 +36,7 @@ namespace myBURGUERMANIA_API.Services
                 var login = new Login
                 {
                     Email = loginDto.Email,
-                    Password = PasswordHelper.HashPassword(loginDto.Password)
+                    Password = user.Password // Usar a senha já armazenada
                 };
                 _context.Logins.Add(login);
                 _context.SaveChanges();
