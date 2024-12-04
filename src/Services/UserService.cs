@@ -75,7 +75,8 @@ namespace myBURGUERMANIA_API.Services
         public User? GetUser(string id)
         {
             var user = _context.Users
-                .Include(u => u.OrderHistory) // Incluir histórico de pedidos
+                .Include(u => u.OrderHistory)
+                    .ThenInclude(o => o.Status) // Incluir status do pedido
                 .FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
@@ -91,7 +92,10 @@ namespace myBURGUERMANIA_API.Services
                 throw new ArgumentException("O CPF deve conter apenas números.");
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.CPF == cpf);
+            var user = _context.Users
+                .Include(u => u.OrderHistory)
+                    .ThenInclude(o => o.Status) // Incluir status do pedido
+                .FirstOrDefault(u => u.CPF == cpf);
             if (user == null)
             {
                 throw new KeyNotFoundException(UserNotFound);
