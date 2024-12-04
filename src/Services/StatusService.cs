@@ -17,7 +17,7 @@ namespace myBURGUERMANIA_API.Services
             var status = _context.Statuses.Find(statusId);
             if (status == null)
             {
-                throw new ArgumentException("Status inválido.");
+                throw new KeyNotFoundException($"Status com ID '{statusId}' não encontrado.");
             }
             return status;
         }
@@ -43,7 +43,7 @@ namespace myBURGUERMANIA_API.Services
             var status = _context.Statuses.Find(id);
             if (status == null)
             {
-                throw new KeyNotFoundException("Status não encontrado.");
+                throw new KeyNotFoundException($"Status com ID '{id}' não encontrado.");
             }
             status.Name = name;
             _context.SaveChanges();
@@ -55,7 +55,7 @@ namespace myBURGUERMANIA_API.Services
             var status = _context.Statuses.Find(id);
             if (status == null)
             {
-                throw new KeyNotFoundException("Status não encontrado.");
+                throw new KeyNotFoundException($"Status com ID '{id}' não encontrado.");
             }
             _context.Statuses.Remove(status);
             _context.SaveChanges();

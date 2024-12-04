@@ -34,9 +34,9 @@ namespace myBURGUERMANIA_API.Controllers
                 var status = _statusService.GetStatusById(id);
                 return Ok(new { mensagem = "Status encontrado.", status });
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new { mensagem = "Status não encontrado." });
+                return NotFound(new { mensagem = ex.Message });
             }
         }
 
@@ -66,9 +66,9 @@ namespace myBURGUERMANIA_API.Controllers
                 _statusService.UpdateStatus(id, dto.Name);
                 return NoContent();
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new { mensagem = "Status não encontrado." });
+                return NotFound(new { mensagem = ex.Message });
             }
         }
 
@@ -82,9 +82,9 @@ namespace myBURGUERMANIA_API.Controllers
                 _statusService.DeleteStatus(id);
                 return NoContent();
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new { mensagem = "Status não encontrado." });
+                return NotFound(new { mensagem = ex.Message });
             }
         }
     }
