@@ -23,6 +23,24 @@ namespace myBURGUERMANIA_API.Controllers
         {
             try
             {
+                if (productIds == null || !productIds.Any())
+                {
+                    return BadRequest(new { message = "A lista de IDs de produtos não pode estar vazia." });
+                }
+
+                foreach (var productId in productIds)
+                {
+                    if (string.IsNullOrWhiteSpace(productId))
+                    {
+                        return BadRequest(new { message = "IDs de produtos não podem ser nulos ou vazios." });
+                    }
+
+                    if (!_selectedProductsService.ProductExists(productId))
+                    {
+                        return BadRequest(new { message = $"Produto com ID {productId} não encontrado." });
+                    }
+                }
+
                 var selectedProducts = _selectedProductsService.Create(productIds);
                 return CreatedAtAction(nameof(GetById), new { id = selectedProducts.Id }, selectedProducts);
             }
@@ -37,6 +55,11 @@ namespace myBURGUERMANIA_API.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    return BadRequest(new { message = "O ID não pode ser nulo ou vazio." });
+                }
+
                 _selectedProductsService.Remove(id);
                 return NoContent();
             }
@@ -54,6 +77,11 @@ namespace myBURGUERMANIA_API.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    return BadRequest(new { message = "O ID não pode ser nulo ou vazio." });
+                }
+
                 var selectedProducts = _selectedProductsService.GetById(id);
                 if (selectedProducts == null)
                 {

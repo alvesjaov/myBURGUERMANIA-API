@@ -14,10 +14,33 @@ namespace myBURGUERMANIA_API.Services
             _context = context;
         }
 
+        public bool ProductExists(string productId)
+        {
+            return _context.Products.Any(p => p.Id == productId);
+        }
+
         public SelectedProductsDto Create(List<string> productIds)
         {
             try
             {
+                if (productIds == null || !productIds.Any())
+                {
+                    throw new ArgumentException("A lista de IDs de produtos não pode estar vazia.");
+                }
+
+                foreach (var productId in productIds)
+                {
+                    if (string.IsNullOrWhiteSpace(productId))
+                    {
+                        throw new ArgumentException("IDs de produtos não podem ser nulos ou vazios.");
+                    }
+
+                    if (!ProductExists(productId))
+                    {
+                        throw new KeyNotFoundException($"Produto com ID {productId} não encontrado.");
+                    }
+                }
+
                 var selectedProducts = new SelectedProducts
                 {
                     Id = IdHelper.GenerateRandomId(),
@@ -46,6 +69,11 @@ namespace myBURGUERMANIA_API.Services
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new ArgumentException("O ID não pode ser nulo ou vazio.");
+                }
+
                 var selectedProducts = _context.SelectedProducts.Find(id);
                 if (selectedProducts == null)
                 {
@@ -72,6 +100,11 @@ namespace myBURGUERMANIA_API.Services
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new ArgumentException("O ID não pode ser nulo ou vazio.");
+                }
+
                 var selectedProducts = _context.SelectedProducts.Find(id);
                 if (selectedProducts != null)
                 {
