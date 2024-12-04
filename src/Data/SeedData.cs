@@ -93,7 +93,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Hambúrguer Vegano",
                         Description = "Pão, carne de soja, alface, tomate, maionese vegana",
-                        Image = "/hamburguer-vegano.png",
+                        Image = "https://shre.ink/hamburguer-vegano-png",
                         CategoryId = categoryHamburgueres.Id,
                         Category = categoryHamburgueres,
                         Price = 24.99
@@ -103,7 +103,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Hambúrguer de Frango",
                         Description = "Pão, frango, queijo, alface, tomate, maionese",
-                        Image = "/hamburguer-frango.png",
+                        Image = "https://shre.ink/hamburguer-frango-png",
                         CategoryId = categoryHamburgueres.Id,
                         Category = categoryHamburgueres,
                         Price = 21.99
@@ -113,7 +113,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Hambúrguer de Bacon",
                         Description = "Pão, carne, bacon, queijo, alface, tomate, maionese",
-                        Image = "/hamburgue-bacon.png",
+                        Image = "https://shre.ink/hamburgue-bacon-png",
                         CategoryId = categoryHamburgueres.Id,
                         Category = categoryHamburgueres,
                         Price = 22.99
@@ -123,7 +123,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Hambúrguer Tradicional",
                         Description = "Pão, carne, queijo, alface, tomate, maionese",
-                        Image = "/hamburguer-tradicional.png",
+                        Image = "https://shre.ink/hamburguer-tradicional-png",
                         CategoryId = categoryHamburgueres.Id,
                         Category = categoryHamburgueres,
                         Price = 21.58
@@ -133,7 +133,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Coca-cola Zero Lata",
                         Description = "Refrigerante de cola zero açúcar",
-                        Image = "/coca-cola-zero.jpeg",
+                        Image = "https://shre.ink/coca-cola-zero-jpeg",
                         CategoryId = categoryBebidas.Id,
                         Category = categoryBebidas,
                         Price = 5.99
@@ -143,7 +143,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Guaraná Lata",
                         Description = "Refrigerante de guaraná",
-                        Image = "/guarana.jpeg",
+                        Image = "https://shre.ink/guarana-jpeg",
                         CategoryId = categoryBebidas.Id,
                         Category = categoryBebidas,
                         Price = 5.99
@@ -153,7 +153,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Coca-cola Lata",
                         Description = "Refrigerante de cola",
-                        Image = "/coca-cola.jpeg",
+                        Image = "https://shre.ink/coca-cola-jpeg",
                         CategoryId = categoryBebidas.Id,
                         Category = categoryBebidas,
                         Price = 5.99
@@ -163,7 +163,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Porção de Nuggets",
                         Description = "Nuggets de frango crocantes",
-                        Image = "/porcao-nuggets.png",
+                        Image = "https://shre.ink/porcao-nuggets-png",
                         CategoryId = categoryPorcoes.Id,
                         Category = categoryPorcoes,
                         Price = 21.99
@@ -173,7 +173,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Porção de Batata Frita",
                         Description = "Batata frita crocante",
-                        Image = "/porcao-batata.png",
+                        Image = "https://shre.ink/porcao-batata-png",
                         CategoryId = categoryPorcoes.Id,
                         Category = categoryPorcoes,
                         Price = 13.99
@@ -183,7 +183,7 @@ namespace myBURGUERMANIA_API.Data
                         Id = IdHelper.GenerateRandomId(),
                         Title = "Porção de Onion Rings",
                         Description = "Anéis de cebola empanados e fritos",
-                        Image = "/porcao-onion.png",
+                        Image = "https://shre.ink/porcao-onion-png",
                         CategoryId = categoryPorcoes.Id,
                         Category = categoryPorcoes,
                         Price = 19.99
