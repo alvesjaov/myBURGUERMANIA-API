@@ -1,4 +1,3 @@
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace myBURGUERMANIA_API.Configurations
@@ -11,9 +10,10 @@ namespace myBURGUERMANIA_API.Configurations
             {
                 options.AddPolicy("AllowSpecificOrigin", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200", "https://my-burguermania.vercel.app/")
+                    policy.WithOrigins("http://localhost:4200", "https://my-burguermania.vercel.app")
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials(); // Adicione esta linha para permitir credenciais
                 });
             });
 

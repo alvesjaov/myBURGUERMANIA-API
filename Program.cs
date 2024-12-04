@@ -37,12 +37,6 @@ using (var scope = app.Services.CreateScope())
 // Use o middleware CORS
 app.UseCors("AllowSpecificOrigin");
 
-app.Use(async (context, next) =>
-{
-    context.Response.Headers.Append("Access-Control-Allow-Origin", "https://my-burguermania.vercel.app");
-    await next.Invoke();
-});
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
