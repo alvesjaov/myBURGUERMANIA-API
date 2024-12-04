@@ -5,6 +5,17 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Adicione o serviço CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200" , "https://my-burguermania.vercel.app/") // Substitua pela URL do frontend
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Alteração para MySQL
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrEmpty(connectionString))
@@ -42,6 +53,9 @@ using (var scope = app.Services.CreateScope())
     await dbContext.Database.MigrateAsync();
     SeedData.Initialize(scope.ServiceProvider); 
 }
+
+// Use o middleware CORS
+app.UseCors("AllowSpecificOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
