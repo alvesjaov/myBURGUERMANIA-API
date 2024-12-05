@@ -29,7 +29,7 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
 1. Clone o repositório:
 
   ```bash
-  git clone https://github.com/seu-usuario/myBURGUERMANIA-API.git
+  git clone https://github.com/alvesjaov/myBURGUERMANIA-API
   ```
 
 2. Navegue até o diretório do projeto:
@@ -95,6 +95,8 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
   ```
 
 4. Atualize as variáveis de ambiente no arquivo `.env` com suas próprias configurações.
+
+- Observação: verefique se o aplicativo do docker está rodando na sua maquina, antes de rodadar os comandos a seguir.
 
 5. Construa a imagem Docker:
 
