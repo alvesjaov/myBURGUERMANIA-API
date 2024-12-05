@@ -66,6 +66,10 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
 
 6. Execute a aplicação:
 
+ ```bash
+ dotnet ef database update
+  ```
+
   ```bash
   dotnet run
   ```
