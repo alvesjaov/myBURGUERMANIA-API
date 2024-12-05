@@ -165,5 +165,50 @@ namespace myBURGUERMANIA_API.Services
                 throw new InvalidOperationException("Ocorreu um erro ao adicionar IDs de produtos.", ex);
             }
         }
+
+        public SelectedProductsDto RemoveProductId(string selectedProductsId, string productId)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(selectedProductsId))
+                {
+                    throw new ArgumentException("O ID de produtos selecionados não pode ser nulo ou vazio.");
+                }
+
+                if (string.IsNullOrWhiteSpace(productId))
+                {
+                    throw new ArgumentException("O ID do produto não pode ser nulo ou vazio.");
+                }
+
+                var selectedProducts = _context.SelectedProducts.Find(selectedProductsId);
+                if (selectedProducts == null)
+                {
+                    throw new KeyNotFoundException("Produtos selecionados não encontrados.");
+                }
+
+                if (!selectedProducts.ProductIds.Contains(productId))
+                {
+                    throw new KeyNotFoundException($"Produto com ID {productId} não encontrado na seleção.");
+                }
+
+                selectedProducts.ProductIds.RemoveAll(id => id == productId);
+                _context.SelectedProducts.Update(selectedProducts);
+                _context.SaveChanges();
+
+                var products = _context.Products.Where(p => selectedProducts.ProductIds.Contains(p.Id)).ToList();
+
+                return new SelectedProductsDto
+                {
+                    Id = selectedProducts.Id,
+                    ProductIds = selectedProducts.ProductIds,
+                    ProductNames = products.Select(p => p.Title).ToList(),
+                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Ocorreu um erro ao remover o ID do produto.", ex);
+            }
+        }
     }
 }

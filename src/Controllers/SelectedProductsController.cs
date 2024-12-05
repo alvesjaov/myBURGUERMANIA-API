@@ -108,6 +108,32 @@ namespace myBURGUERMANIA_API.Controllers
             }
         }
 
+        [HttpDelete("{selectedProductsId}/product/{productId}")]
+        [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status400BadRequest)]
+        public IActionResult RemoveProductId(string selectedProductsId, string productId)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(selectedProductsId))
+                {
+                    return BadRequest(new { message = "O ID de produtos selecionados não pode ser nulo ou vazio." });
+                }
+
+                if (string.IsNullOrWhiteSpace(productId))
+                {
+                    return BadRequest(new { message = "O ID do produto não pode ser nulo ou vazio." });
+                }
+
+                var updatedSelectedProducts = _selectedProductsService.RemoveProductId(selectedProductsId, productId);
+                return Ok(updatedSelectedProducts);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status400BadRequest)]
