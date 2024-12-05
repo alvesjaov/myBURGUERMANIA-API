@@ -19,16 +19,16 @@ namespace myBURGUERMANIA_API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(SelectedProductsDto), StatusCodes.Status400BadRequest)]
-        public IActionResult Create([FromBody] List<string> productIds)
+        public IActionResult Create([FromBody] CreateSelectedProductsDto createSelectedProductsDto)
         {
             try
             {
-                if (productIds == null || !productIds.Any())
+                if (createSelectedProductsDto.ProductIds == null || !createSelectedProductsDto.ProductIds.Any())
                 {
                     return BadRequest(new { message = "A lista de IDs de produtos não pode estar vazia." });
                 }
 
-                foreach (var productId in productIds)
+                foreach (var productId in createSelectedProductsDto.ProductIds)
                 {
                     if (string.IsNullOrWhiteSpace(productId))
                     {
@@ -41,7 +41,7 @@ namespace myBURGUERMANIA_API.Controllers
                     }
                 }
 
-                var selectedProducts = _selectedProductsService.Create(productIds);
+                var selectedProducts = _selectedProductsService.Create(createSelectedProductsDto.ProductIds, createSelectedProductsDto.UserId);
                 return CreatedAtAction(nameof(GetById), new { id = selectedProducts.Id }, selectedProducts);
             }
             catch (ApplicationException ex)

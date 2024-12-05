@@ -80,6 +80,8 @@ namespace myBURGUERMANIA_API.Data
             );
             context.SaveChanges();
 
+            var userAdmin = context.Users.FirstOrDefault(u => u.Email == "admin@myburguer.com");
+
             // Adicionar produtos
             var categoryHamburgueres = context.Categories.FirstOrDefault(c => c.Name == "Hambúrgueres");
             var categoryBebidas = context.Categories.FirstOrDefault(c => c.Name == "Bebidas");
@@ -198,20 +200,20 @@ namespace myBURGUERMANIA_API.Data
                 var product1 = context.Products.FirstOrDefault(p => p.Title == "Hambúrguer Vegano");
                 var product2 = context.Products.FirstOrDefault(p => p.Title == "Hambúrguer de Frango");
 
-                if (product1 != null && product2 != null)
+                if (product1 != null && product2 != null && userAdmin != null)
                 {
                     var selectedProducts = new SelectedProducts
                     {
                         Id = IdHelper.GenerateRandomId(),
-                        ProductIds = new List<string> { product1.Id, product2.Id }
+                        ProductIds = new List<string> { product1.Id, product2.Id },
+                        UserId = userAdmin.Id // Usar o UserId do usuário criado
                     };
                     context.SelectedProducts.Add(selectedProducts);
                     context.SaveChanges();
 
                     // Adicionar pedidos
                     var statusPendente = context.Statuses.FirstOrDefault(s => s.Name == "Pendente");
-                    var userAdmin = context.Users.FirstOrDefault(u => u.Email == "admin@myburguer.com");
-                    if (statusPendente != null && userAdmin != null && !context.Orders.Any())
+                    if (statusPendente != null && !context.Orders.Any())
                     {
                         var totalValue = OrderService.CalculateTotalValue(context, selectedProducts.ProductIds);
 

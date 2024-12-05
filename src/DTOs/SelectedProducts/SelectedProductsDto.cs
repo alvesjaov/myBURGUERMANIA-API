@@ -6,5 +6,6 @@ namespace myBURGUERMANIA_API.DTOs.SelectedProducts
         public required List<string> ProductIds { get; set; }
         public List<string> ProductNames { get; set; } = new List<string>();
         public List<string> ProductImageUrls { get; set; } = new List<string>();
+        public required string UserId { get; set; } // ID do usuário que criou a seleção de produtos
     }
 }

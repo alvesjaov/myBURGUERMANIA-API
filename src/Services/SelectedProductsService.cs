@@ -19,7 +19,7 @@ namespace myBURGUERMANIA_API.Services
             return _context.Products.Any(p => p.Id == productId);
         }
 
-        public SelectedProductsDto Create(List<string> productIds)
+        public SelectedProductsDto Create(List<string> productIds, string userId)
         {
             try
             {
@@ -44,7 +44,8 @@ namespace myBURGUERMANIA_API.Services
                 var selectedProducts = new SelectedProducts
                 {
                     Id = IdHelper.GenerateRandomId(),
-                    ProductIds = productIds
+                    ProductIds = productIds,
+                    UserId = userId
                 };
                 _context.SelectedProducts.Add(selectedProducts);
                 _context.SaveChanges();
@@ -56,7 +57,8 @@ namespace myBURGUERMANIA_API.Services
                     Id = selectedProducts.Id,
                     ProductIds = selectedProducts.ProductIds,
                     ProductNames = products.Select(p => p.Title).ToList(),
-                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                    ProductImageUrls = products.Select(p => p.Image).ToList(),
+                    UserId = selectedProducts.UserId
                 };
             }
             catch (Exception ex)
@@ -87,7 +89,8 @@ namespace myBURGUERMANIA_API.Services
                     Id = selectedProducts.Id,
                     ProductIds = selectedProducts.ProductIds,
                     ProductNames = products.Select(p => p.Title).ToList(),
-                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                    ProductImageUrls = products.Select(p => p.Image).ToList(),
+                    UserId = selectedProducts.UserId
                 };
             }
             catch (Exception ex)
@@ -157,7 +160,8 @@ namespace myBURGUERMANIA_API.Services
                     Id = selectedProducts.Id,
                     ProductIds = selectedProducts.ProductIds,
                     ProductNames = products.Select(p => p.Title).ToList(),
-                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                    ProductImageUrls = products.Select(p => p.Image).ToList(),
+                    UserId = selectedProducts.UserId
                 };
             }
             catch (Exception ex)
@@ -202,7 +206,8 @@ namespace myBURGUERMANIA_API.Services
                     Id = selectedProducts.Id,
                     ProductIds = selectedProducts.ProductIds,
                     ProductNames = products.Select(p => p.Title).ToList(),
-                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                    ProductImageUrls = products.Select(p => p.Image).ToList(),
+                    UserId = selectedProducts.UserId
                 };
             }
             catch (Exception ex)
