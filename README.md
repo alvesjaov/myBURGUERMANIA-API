@@ -151,6 +151,18 @@ Online, a API pode ser acessada em [https://myburguermania-api.onrender.com](htt
 - `PUT /api/User/{id}` - Atualiza um usuário específico pelo seu ID.
 - `DELETE /api/User/{id}` - Exclui um usuário específico pelo seu ID.
 
+### Login
+
+- `POST /api/Login` - Autentica um usuário.
+- `DELETE /api/Login` - Realiza logout de um usuário.
+
+### SelectedProducts
+
+- `POST /api/SelectedProducts` - Cria uma nova seleção de produtos.
+- `GET /api/SelectedProducts/{id}` - Retorna os detalhes de uma seleção de produtos específica pelo seu ID.
+- `PUT /api/SelectedProducts/{id}` - Adiciona mais IDs de produtos a uma seleção de produtos existente.
+- `DELETE /api/SelectedProducts/{id}` - Exclui uma seleção de produtos específica pelo seu ID.
+
 ## 🤝 Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
