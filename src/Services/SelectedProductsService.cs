@@ -117,5 +117,53 @@ namespace myBURGUERMANIA_API.Services
                 throw new InvalidOperationException("Ocorreu um erro ao remover os produtos selecionados.", ex);
             }
         }
+
+        public SelectedProductsDto AddProductIds(string id, List<string> productIds)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new ArgumentException("O ID não pode ser nulo ou vazio.");
+                }
+
+                if (productIds == null || !productIds.Any())
+                {
+                    throw new ArgumentException("A lista de IDs de produtos não pode estar vazia.");
+                }
+
+                var selectedProducts = _context.SelectedProducts.Find(id);
+                if (selectedProducts == null)
+                {
+                    throw new KeyNotFoundException("Produtos selecionados não encontrados.");
+                }
+
+                foreach (var productId in productIds)
+                {
+                    if (!ProductExists(productId))
+                    {
+                        throw new KeyNotFoundException($"Produto com ID {productId} não encontrado.");
+                    }
+                }
+
+                selectedProducts.ProductIds.AddRange(productIds);
+                _context.SelectedProducts.Update(selectedProducts);
+                _context.SaveChanges();
+
+                var products = _context.Products.Where(p => selectedProducts.ProductIds.Contains(p.Id)).ToList();
+
+                return new SelectedProductsDto
+                {
+                    Id = selectedProducts.Id,
+                    ProductIds = selectedProducts.ProductIds,
+                    ProductNames = products.Select(p => p.Title).ToList(),
+                    ProductImageUrls = products.Select(p => p.Image).ToList()
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Ocorreu um erro ao adicionar IDs de produtos.", ex);
+            }
+        }
     }
 }
