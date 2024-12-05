@@ -55,16 +55,7 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
     "AllowedHosts": "*"
   }
   ```
-
-4. Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`:
-
-  ```sh
-  cp .env.example .env
-  ```
-
-5. Atualize as variáveis de ambiente no arquivo `.env` com suas próprias configurações.
-
-6. Execute a aplicação:
+4. Execute a aplicação:
 
  ```bash
  dotnet ef database update
